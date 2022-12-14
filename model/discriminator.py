@@ -5,7 +5,7 @@ from tensorflow.keras.optimizers import Adam
 
 
 # define the standalone discriminator model
-def define_discriminator(image_size: int, channels: int, n_classes: int, lr: float, beta_1: float) -> Model:
+def create_discriminator(image_size: int, channels: int, n_classes: int, lr: float, beta_1: float) -> Model:
     # define input shape
     in_shape = (image_size, image_size, channels)
     # label input

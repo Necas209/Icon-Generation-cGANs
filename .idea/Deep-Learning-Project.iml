@@ -16,10 +16,10 @@
       <excludeFolder url="file://$MODULE_DIR$/outputs/2022-12-14/11-03-23/.hydra" />
       <excludeFolder url="file://$MODULE_DIR$/outputs/2022-12-14/11-07-21" />
       <excludeFolder url="file://$MODULE_DIR$/outputs/2022-12-14/11-07-21/.hydra" />
+      <excludeFolder url="file://$MODULE_DIR$/outputs" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.9 (tf2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="ArjanCodes 2021-config main after" />
   </component>
   <component name="PyDocumentationSettings">
     <option name="renderExternalDocumentation" value="true" />

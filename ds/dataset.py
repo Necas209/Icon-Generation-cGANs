@@ -8,7 +8,7 @@ import numpy as np
 
 @dataclass
 class Icons50Dataset:
-    """ The Icons-50 ds """
+    """ The Icons-50 dataset """
     images: np.ndarray
     labels: np.ndarray
 
@@ -19,23 +19,10 @@ class Icons50Dataset:
         self.images = np.transpose(self.images, (0, 2, 3, 1))
 
     def shuffle(self) -> None:
-        """ Shuffle the ds """
+        """ Shuffle the dataset """
         p = np.random.permutation(len(self))
         self.images = self.images[p]
         self.labels = self.labels[p]
-
-    def split(self, ratio: float) -> tuple[Icons50Dataset, Icons50Dataset]:
-        """ Split the ds into two datasets """
-        split_index = int(len(self) * ratio)
-        start_ds = Icons50Dataset(
-            images=self.images[:split_index],
-            labels=self.labels[:split_index]
-        )
-        end_ds = Icons50Dataset(
-            images=self.images[split_index:],
-            labels=self.labels[split_index:]
-        )
-        return start_ds, end_ds
 
     def __getitem__(self, index: int) -> tuple[np.ndarray, np.ndarray]:
         return self.images[index], self.labels[index]
