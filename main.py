@@ -6,16 +6,16 @@ from omegaconf import OmegaConf
 
 from config import Icons50Config
 from ds.dataset import create_dataset
-from model.discriminator import create_discriminator
-from model.gan import create_gan
-from model.train import train_gan
-from model.generator import create_generator
+from models.discriminator import create_discriminator
+from models.gan import create_gan
+from models.generator import create_generator
+from models.train import train_gan
 
 cs = ConfigStore.instance()
 cs.store(name="mnist_config", node=Icons50Config)
 
 
-@hydra.main(version_base=None, config_path="conf", config_name="config")
+@hydra.main(version_base=None, config_path="config", config_name="config")
 def main(cfg: Icons50Config) -> None:
     print(OmegaConf.to_yaml(cfg))
 
