@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/outputs/2022-12-14/10-40-18" />
+      <excludeFolder url="file://$MODULE_DIR$/outputs/2022-12-14/10-40-18/.hydra" />
+      <excludeFolder url="file://$MODULE_DIR$/outputs/2022-12-14/10-41-46" />
+      <excludeFolder url="file://$MODULE_DIR$/outputs/2022-12-14/10-41-46/.hydra" />
+      <excludeFolder url="file://$MODULE_DIR$/outputs/2022-12-14/10-46-09" />
+      <excludeFolder url="file://$MODULE_DIR$/outputs/2022-12-14/10-46-09/.hydra" />
+      <excludeFolder url="file://$MODULE_DIR$/outputs/2022-12-14/10-56-18" />
+      <excludeFolder url="file://$MODULE_DIR$/outputs/2022-12-14/10-56-18/.hydra" />
+      <excludeFolder url="file://$MODULE_DIR$/outputs/2022-12-14/10-58-05" />
+      <excludeFolder url="file://$MODULE_DIR$/outputs/2022-12-14/10-58-05/.hydra" />
+      <excludeFolder url="file://$MODULE_DIR$/outputs/2022-12-14/11-03-23" />
+      <excludeFolder url="file://$MODULE_DIR$/outputs/2022-12-14/11-03-23/.hydra" />
+      <excludeFolder url="file://$MODULE_DIR$/outputs/2022-12-14/11-07-21" />
+      <excludeFolder url="file://$MODULE_DIR$/outputs/2022-12-14/11-07-21/.hydra" />
+    </content>
     <orderEntry type="jdk" jdkName="Python 3.9 (tf2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="ArjanCodes 2021-config main after" />
   </component>
   <component name="PyDocumentationSettings">
     <option name="renderExternalDocumentation" value="true" />

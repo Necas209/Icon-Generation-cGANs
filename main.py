@@ -1,38 +1,66 @@
-import numpy as np
-import tensorflow as tf
-from huggingface_hub import from_pretrained_keras
-from matplotlib import pyplot as plt
-from tensorflow import keras
+from __future__ import annotations
 
-from dataset import get_dataset_from_dict
+import hydra
+from hydra.core.config_store import ConfigStore
+from omegaconf import OmegaConf
+
+from config import Icons50Config
+from ds.dataset import create_dataset
+from ds.train import train
+from model.discriminator import define_discriminator
+from model.gan import define_gan
+from model.generator import define_generator
+
+cs = ConfigStore.instance()
+cs.store(name="mnist_config", node=Icons50Config)
 
 
-def main() -> None:
-    # Load the dataset
-    icons = np.load("Icons-50.npy", allow_pickle=True).item()
+@hydra.main(version_base=None, config_path="conf", config_name="config")
+def main(cfg: Icons50Config) -> None:
+    print(OmegaConf.to_yaml(cfg))
 
-    # Create a dataset from the icons
-    dataset = get_dataset_from_dict(icons)
+    # Create the dataset
+    dataset = create_dataset(cfg.file_path)
 
-    # Create TF dataset
-    tf_dataset = tf.data.Dataset.from_tensor_slices((dataset.images, dataset.labels))
+    # Shuffle the dataset
+    if cfg.params.shuffle:
+        dataset.shuffle()
 
-    # Load the model from the Hugging Face Hub
-    model: keras.Model = from_pretrained_keras("keras-io/conditional-gan")
-    model.summary()
+    # create the discriminator
+    d_model = define_discriminator(
+        image_size=cfg.params.image_size,
+        channels=cfg.params.channels,
+        n_classes=cfg.params.n_classes,
+        lr=cfg.optimizer.lr,
+        beta_1=cfg.optimizer.beta_1,
+    )
+    d_model.summary()
 
-    # Generate a random noise vector
-    noise = np.random.normal(0, 1, (1, 100))
+    # create the generator
+    g_model = define_generator(
+        latent_dim=cfg.params.latent_dim,
+        n_classes=10,
+        # n_classes=cfg.params.n_classes
+    )
+    g_model.summary()
 
-    # Generate a random class label
-    label = np.random.randint(0, 50, 1)
+    # create the gan
+    gan_model = define_gan(
+        g_model=g_model,
+        d_model=d_model,
+        lr=cfg.optimizer.lr,
+        beta_1=cfg.optimizer.beta_1
+    )
+    gan_model.summary()
 
-    # Generate an image
-    generated_image = model.predict([noise, label])
-
-    # Plot the image
-    plt.imshow(generated_image[0, :, :, 0], cmap="gray")
-    plt.show()
+    # train model
+    train(
+        g_model, d_model, gan_model, dataset,
+        latent_dim=cfg.params.latent_dim,
+        n_epochs=cfg.params.epochs,
+        n_batch=cfg.params.batch_size,
+        n_classes=cfg.params.n_classes
+    )
 
 
 if __name__ == "__main__":

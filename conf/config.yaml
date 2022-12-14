@@ -1,0 +1,12 @@
+file_path: ${hydra:runtime.cwd}/data/Icons-50.npy
+params:
+  latent_dim: 100
+  n_classes: 50
+  image_size: 32
+  channels: 3
+  epochs: 100
+  batch_size: 128
+  shuffle: True
+optimizer:
+  lr: 0.0002
+  beta_1: 0.5
