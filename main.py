@@ -6,9 +6,8 @@ from omegaconf import OmegaConf
 
 from config import Icons50Config
 from ds.dataset import create_dataset
-from ds.train import train
 from model.discriminator import define_discriminator
-from model.gan import define_gan
+from model.gan import define_gan, train_gan
 from model.generator import define_generator
 
 cs = ConfigStore.instance()
@@ -19,10 +18,12 @@ cs.store(name="mnist_config", node=Icons50Config)
 def main(cfg: Icons50Config) -> None:
     print(OmegaConf.to_yaml(cfg))
 
-    # Create the dataset
+    # Create the ds
     dataset = create_dataset(cfg.file_path)
 
-    # Shuffle the dataset
+    print(dataset.images.shape)
+
+    # Shuffle the ds
     if cfg.params.shuffle:
         dataset.shuffle()
 
@@ -39,8 +40,7 @@ def main(cfg: Icons50Config) -> None:
     # create the generator
     g_model = define_generator(
         latent_dim=cfg.params.latent_dim,
-        n_classes=10,
-        # n_classes=cfg.params.n_classes
+        n_classes=cfg.params.n_classes,
     )
     g_model.summary()
 
@@ -54,7 +54,7 @@ def main(cfg: Icons50Config) -> None:
     gan_model.summary()
 
     # train model
-    train(
+    train_gan(
         g_model, d_model, gan_model, dataset,
         latent_dim=cfg.params.latent_dim,
         n_epochs=cfg.params.epochs,

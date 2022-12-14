@@ -3,7 +3,7 @@ from keras.layers import Concatenate, Dense, Conv2D, LeakyReLU, Embedding, Resha
 from keras.models import Model
 
 
-def define_generator(latent_dim: int, n_classes: int = 10) -> Model:
+def define_generator(latent_dim: int, n_classes: int) -> Model:
     # label input
     in_label = Input(shape=(1,))
     # embedding for categorical input

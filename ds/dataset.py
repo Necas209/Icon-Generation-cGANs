@@ -4,12 +4,11 @@ from dataclasses import dataclass
 from typing import Any
 
 import numpy as np
-import tensorflow as tf
 
 
 @dataclass
 class Icons50Dataset:
-    """ The Icons-50 dataset """
+    """ The Icons-50 ds """
     images: np.ndarray
     labels: np.ndarray
 
@@ -17,16 +16,16 @@ class Icons50Dataset:
         self.__index = 0
         self.images = self.images.astype('float32')
         self.images = (self.images - 127.5) / 127.5
-        self.labels = tf.keras.utils.to_categorical(self.labels)
+        self.images = np.transpose(self.images, (0, 2, 3, 1))
 
     def shuffle(self) -> None:
-        """ Shuffle the dataset """
+        """ Shuffle the ds """
         p = np.random.permutation(len(self))
         self.images = self.images[p]
         self.labels = self.labels[p]
 
     def split(self, ratio: float) -> tuple[Icons50Dataset, Icons50Dataset]:
-        """ Split the dataset into two datasets """
+        """ Split the ds into two datasets """
         split_index = int(len(self) * ratio)
         start_ds = Icons50Dataset(
             images=self.images[:split_index],
@@ -57,12 +56,12 @@ class Icons50Dataset:
 
 
 def create_dataset(path: str) -> Icons50Dataset:
-    """ Create a dataset from a path """
+    """ Create a ds from a path """
     # Load the numpy arrays
     icons: dict | Any = np.load(path, allow_pickle=True).item()
     # Get the images and labels
     images: np.ndarray = icons["image"]
     labels = np.array(icons["class"])
-    # Create the dataset
+    # Create the ds
     dataset = Icons50Dataset(images, labels)
     return dataset

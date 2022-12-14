@@ -5,12 +5,12 @@ from ds.dataset import Icons50Dataset
 
 
 def generate_real_samples(dataset: Icons50Dataset, n_samples: int) -> tuple[list[np.ndarray], np.ndarray]:
-    """ Select real samples from the dataset """
+    """ Select real samples from the ds """
     # get images and labels
     images = dataset.images
     labels = dataset.labels
     # choose random instances
-    ix = np.randint(0, images.shape[0], n_samples)
+    ix = np.random.randint(0, images.shape[0], n_samples)
     # select images and labels
     x, labels = images[ix], labels[ix]
     # generate class labels
@@ -21,11 +21,11 @@ def generate_real_samples(dataset: Icons50Dataset, n_samples: int) -> tuple[list
 def generate_latent_points(latent_dim: int, n_samples: int, n_classes: int) -> list[np.ndarray]:
     """ Generate points in the latent space as input for the generator """
     # generate points in the latent space
-    x_input = np.randn(latent_dim * n_samples)
+    x_input = np.random.randn(latent_dim * n_samples)
     # reshape into a batch of inputs for the network
     z_input = x_input.reshape(n_samples, latent_dim)
     # generate labels
-    labels = np.randint(0, n_classes, n_samples)
+    labels = np.random.randint(0, n_classes, n_samples)
     return [z_input, labels]
 
 
