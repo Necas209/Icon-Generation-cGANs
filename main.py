@@ -2,10 +2,11 @@ from __future__ import annotations
 
 import hydra
 from hydra.core.config_store import ConfigStore
-from omegaconf import OmegaConf
+from keras.models import load_model
 
 from config import Icons50Config
-from ds.dataset import create_dataset
+from ds.dataset import create_dataset, print_labels
+from ds.generation import generate_images
 from models.discriminator import create_discriminator
 from models.gan import create_gan
 from models.generator import create_generator
@@ -17,12 +18,10 @@ cs.store(name="mnist_config", node=Icons50Config)
 
 @hydra.main(version_base=None, config_path="config", config_name="config")
 def main(cfg: Icons50Config) -> None:
-    print(OmegaConf.to_yaml(cfg))
-
-    # Create the ds
+    # Create the dataset
     dataset = create_dataset(cfg.file_path)
 
-    # Shuffle the ds
+    # Shuffle the dataset
     if cfg.params.shuffle:
         dataset.shuffle()
 
@@ -57,6 +56,21 @@ def main(cfg: Icons50Config) -> None:
         n_epochs=cfg.params.epochs,
         n_batch=cfg.params.batch_size,
         n_classes=cfg.params.n_classes
+    )
+
+    # load saved generator model
+    g_model = load_model('cgan_generator.h5')
+
+    # Read the label from user input
+    label = int(input("Enter the label: "))
+    print_labels(dataset, label)
+
+    # generate images
+    generate_images(
+        g_model,
+        latent_dim=cfg.params.latent_dim,
+        n_images=9,
+        label=label
     )
 
 

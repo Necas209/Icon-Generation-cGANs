@@ -34,7 +34,7 @@ def create_discriminator(image_size: int, channels: int, n_classes: int, lr: flo
     # define model
     model = Model([in_image, in_label], out_layer)
     # compile model
-    opt = Adam(lr=lr, beta_1=beta_1)
+    opt = Adam(learning_rate=lr, beta_1=beta_1)
     model.compile(
         loss='binary_crossentropy',
         optimizer=opt,

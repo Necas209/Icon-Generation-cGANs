@@ -5,7 +5,7 @@ params:
   image_size: 32
   channels: 3
   epochs: 100
-  batch_size: 128
+  batch_size: 100
   shuffle: True
 optimizer:
   lr: 0.0002

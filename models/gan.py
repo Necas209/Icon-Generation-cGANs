@@ -15,7 +15,7 @@ def create_gan(g_model: Model, d_model: Model, lr: float, beta_1: float) -> Mode
     # define gan model as taking noise and label and outputting a classification
     model = Model([gen_noise, gen_label], gan_output)
     # compile model
-    opt = Adam(lr=lr, beta_1=beta_1)
+    opt = Adam(learning_rate=lr, beta_1=beta_1)
     model.compile(
         loss='binary_crossentropy',
         optimizer=opt
