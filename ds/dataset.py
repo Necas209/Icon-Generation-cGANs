@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
 from typing import Any
 
@@ -9,15 +10,20 @@ import numpy as np
 @dataclass
 class Icons50Dataset:
     """ The Icons-50 dataset """
-    images: np.ndarray[np.ndarray]  # image is a 3D numpy array of shape (32, 32, 3)
-    labels: np.ndarray[int]  # class labels are 0-49 (50 classes) and are the same as the subtype labels
-    subtypes: np.ndarray[str]  # subtype is a string that indicates the icon's subtype
-    styles: np.ndarray[str]  # style is a string that indicates the icon's style
-    renditions: np.ndarray[int]  # rendition is a string that indicates the icon's version
+    images: np.ndarray[np.ndarray]
+    """ image is a 3D numpy array of shape (32, 32, 3) """
+    labels: np.ndarray[int]
+    """ label is an integer in [0, 49] that represents the class of the image """
+    subtypes: np.ndarray[str]
+    """ subtype is a string that represents the icon subtype """
+    styles: np.ndarray[str]
+    """ style is a string that represents the icon style """
+    renditions: np.ndarray[int]
+    """ rendition is an integer in [0, 9] that represents the icon version """
 
     def __post_init__(self) -> None:
         self.__index = 0
-        self.images = self.images.astype('float32')
+        self.images = self.images.astype(np.float32)
         self.images = (self.images - 127.5) / 127.5
         self.images = np.transpose(self.images, (0, 2, 3, 1))
 
@@ -48,8 +54,8 @@ class Icons50Dataset:
             return self[self.__index - 1]
 
 
-def create_dataset(path: str) -> Icons50Dataset:
-    """ Create a ds from a path """
+def create_dataset(path: str | bytes | os.PathLike) -> Icons50Dataset:
+    """ Create a dataset from a path """
     # Load the icons-50 dataset
     icons: dict | Any = np.load(path, allow_pickle=True).item()
     # Convert the lists to numpy arrays
