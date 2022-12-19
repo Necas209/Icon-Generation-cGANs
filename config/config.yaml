@@ -1,3 +1,4 @@
+url_path: 
 file_path: ${hydra:runtime.cwd}/data/Icons-50.npy
 params:
   latent_dim: 100

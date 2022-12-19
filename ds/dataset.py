@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from typing import Any
 
 import numpy as np
+import requests
 
 
 @dataclass
@@ -52,6 +53,15 @@ class Icons50Dataset:
         else:
             self.__index += 1
             return self[self.__index - 1]
+
+
+def download_dataset(url: str, file_path: str) -> None:
+    """ Download the dataset """
+    if not os.path.exists(file_path):
+        print(f"Downloading dataset from {url} to {file_path}")
+        response = requests.get(url)
+        with open(file_path, "wb") as f:
+            f.write(response.content)
 
 
 def create_dataset(path: str | bytes | os.PathLike) -> Icons50Dataset:
