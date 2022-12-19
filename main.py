@@ -13,7 +13,7 @@ from models.generator import create_generator
 from models.train import train_gan
 
 cs = ConfigStore.instance()
-cs.store(name="mnist_config", node=Icons50Config)
+cs.store(name="icons50_config", node=Icons50Config)
 
 
 @hydra.main(version_base=None, config_path="config", config_name="config")
@@ -30,8 +30,8 @@ def main(cfg: Icons50Config) -> None:
         image_size=cfg.params.image_size,
         channels=cfg.params.channels,
         n_classes=cfg.params.n_classes,
-        lr=cfg.optimizer.lr,
-        beta_1=cfg.optimizer.beta_1,
+        lr=cfg.optim.lr,
+        beta_1=cfg.optim.beta_1,
     )
 
     # create the generator
@@ -43,8 +43,8 @@ def main(cfg: Icons50Config) -> None:
     # create the gan
     gan_model = create_gan(
         g_model, d_model,
-        lr=cfg.optimizer.lr,
-        beta_1=cfg.optimizer.beta_1
+        lr=cfg.optim.lr,
+        beta_1=cfg.optim.beta_1
     )
     gan_model.summary()
 

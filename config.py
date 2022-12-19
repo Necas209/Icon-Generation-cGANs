@@ -22,4 +22,4 @@ class Params:
 class Icons50Config:
     file_path: str
     params: Params
-    optimizer: Optimizer
+    optim: Optimizer

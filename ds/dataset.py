@@ -70,7 +70,6 @@ def create_dataset(path: str | bytes | os.PathLike) -> Icons50Dataset:
     )
 
 
-# print tuple of labels and subtypes
 def print_labels(dataset: Icons50Dataset, filter_label: int | None = None) -> None:
     """ Print the labels and subtypes """
     # Zip the labels and subtypes
@@ -81,7 +80,6 @@ def print_labels(dataset: Icons50Dataset, filter_label: int | None = None) -> No
     types.sort(key=lambda x: (x[0], x[1]))
     # If a label is specified, print only that label
     if filter_label is not None:
-        types = [(label, subtype) for label, subtype in types
-                 if label == filter_label]
+        types = [x for x in types if x[0] == filter_label]
     for label, subtype in types:
         print(f"{label}: {subtype}")

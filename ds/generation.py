@@ -8,7 +8,7 @@ from ds.dataset import Icons50Dataset
 
 
 def generate_real_samples(dataset: Icons50Dataset, n_samples: int) -> tuple[list[np.ndarray], np.ndarray]:
-    """ Select real samples from the ds """
+    """ Select real samples from the dataset """
     # get images and labels
     images = dataset.images
     labels = dataset.labels

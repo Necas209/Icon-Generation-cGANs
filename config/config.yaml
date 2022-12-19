@@ -7,6 +7,6 @@ params:
   epochs: 100
   batch_size: 100
   shuffle: True
-optimizer:
+optim:
   lr: 0.0002
   beta_1: 0.5
