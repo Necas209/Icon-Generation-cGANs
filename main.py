@@ -6,7 +6,7 @@ import hydra
 from hydra.core.config_store import ConfigStore
 from keras.models import load_model
 
-from config import Icons50Config
+from config.config import Icons50Config
 from ds.dataset import create_dataset, print_labels
 from ds.generation import generate_images
 from models.cgan import create_cgan, create_generator, create_discriminator

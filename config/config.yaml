@@ -1,4 +1,4 @@
-file_path: ${hydra:runtime.cwd}/data/Icons-50.npy
+file_path: data/Icons-50.npy
 params:
   latent_dim: 100
   num_classes: 50
