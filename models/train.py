@@ -10,11 +10,11 @@ def summarize_performance(epoch: int, generator: Model, discriminator: Model, da
                           batch_size: int, num_classes: int) -> None:
     """ Summarize model performance """
     # prepare real samples
-    [X_real, labels_real], y_real = generate_real_samples(dataset, batch_size)
+    (X_real, labels_real), y_real = generate_real_samples(dataset, batch_size)
     # evaluate discriminator on real examples
     _, acc_real = discriminator.evaluate([X_real, labels_real], y_real, verbose=0)
     # prepare fake examples
-    [X_fake, labels], y_fake = generate_fake_samples(generator, latent_dim, batch_size, num_classes)
+    (X_fake, labels), y_fake = generate_fake_samples(generator, latent_dim, batch_size, num_classes)
     # evaluate discriminator on fake examples
     _, acc_fake = discriminator.evaluate([X_fake, labels], y_fake, verbose=0)
     # summarize discriminator performance
@@ -41,15 +41,15 @@ def train_cgan(cgan: Model, generator: Model, discriminator: Model, dataset: Ico
         # enumerate batches over the training set
         for j in range(batches_per_epoch):
             # get randomly selected 'real' samples
-            [X_real, labels_real], y_real = generate_real_samples(dataset, half_batch)
+            (X_real, labels_real), y_real = generate_real_samples(dataset, half_batch)
             # update discriminator model weights
             d_loss1, d_acc1 = discriminator.train_on_batch([X_real, labels_real], y_real)
             # generate 'fake' examples
-            [X_fake, labels], y_fake = generate_fake_samples(generator, latent_dim, half_batch, num_classes)
+            (X_fake, labels), y_fake = generate_fake_samples(generator, latent_dim, half_batch, num_classes)
             # update discriminator model weights
             d_loss2, d_acc2 = discriminator.train_on_batch([X_fake, labels], y_fake)
             # prepare points in latent space as input for the generator
-            [z_input, labels_input] = generate_latent_points(latent_dim, batch_size, num_classes)
+            z_input, labels_input = generate_latent_points(latent_dim, batch_size, num_classes)
             # create inverted labels for the fake samples
             y_gan = np.ones((batch_size, 1))
             # update the generator via the discriminator's error
