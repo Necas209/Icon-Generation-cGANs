@@ -5,11 +5,11 @@ from hydra.core.config_store import ConfigStore
 from keras.models import load_model
 
 from config.config import Icons50Config
-from ds.dataset import create_dataset, print_labels
-from ds.generation import generate_images
-from models.cgan import create_cgan, create_generator, create_discriminator
-from models.history import plot_history
-from models.train import train_cgan
+from data.dataset import create_dataset, print_labels
+from data.generation import generate_images
+from model.cgan import create_cgan, create_generator, create_discriminator
+from model.history import plot_history
+from model.train import train_cgan, save_models
 
 cs = ConfigStore.instance()
 cs.store(name="icons50_config", node=Icons50Config)
@@ -61,6 +61,8 @@ def main(cfg: Icons50Config) -> None:
     )
     # plot history
     plot_history(history)
+    # save models
+    save_models(generator, discriminator, cfg.save_path)
     # load saved generator model
     generator = load_model('cgan_generator.h5')
     # Read the label from user input

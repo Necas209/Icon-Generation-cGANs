@@ -1,9 +1,13 @@
+from __future__ import annotations
+
+import os
+
 import numpy as np
 from keras.models import Functional
 
-from ds.dataset import Icons50Dataset
-from ds.generation import generate_real_samples, generate_fake_samples, generate_latent_points
-from models.history import History
+from data.dataset import Icons50Dataset
+from data.generation import generate_real_samples, generate_fake_samples, generate_latent_points
+from model.history import History
 
 
 def summarize_performance(epoch: int, generator: Functional, discriminator: Functional, dataset: Icons50Dataset,
@@ -71,7 +75,12 @@ def train_cgan(cgan: Functional, generator: Functional, discriminator: Functiona
         # evaluate the model performance, sometimes
         if (i + 1) % 10 == 0:
             summarize_performance(i, generator, discriminator, dataset, latent_dim, batch_size, num_classes)
-    # save the generator model
-    generator.save('cgan_generator.h5')
-
     return history
+
+
+def save_models(generator: Functional, discriminator: Functional, cgan: Functional,
+                save_path: str | bytes | os.PathLike) -> None:
+    """ Save the models """
+    generator.save(os.path.join(save_path, "generator.h5"))
+    discriminator.save(os.path.join(save_path, "discriminator.h5"))
+    cgan.save(os.path.join(save_path, "cgan.h5"))

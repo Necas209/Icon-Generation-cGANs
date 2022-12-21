@@ -1,4 +1,5 @@
-file_path: data/Icons-50.pkl
+file_path: Icons-50.pkl
+save_path: models/
 params:
   latent_dim: 100
   num_classes: 50

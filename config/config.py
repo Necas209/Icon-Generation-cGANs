@@ -21,5 +21,6 @@ class Params:
 @dataclass
 class Icons50Config:
     file_path: str
+    save_path: str
     params: Params
     optim: Optimizer
