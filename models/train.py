@@ -1,13 +1,13 @@
 import numpy as np
-from keras.models import Model
+from keras.models import Functional
 
 from ds.dataset import Icons50Dataset
 from ds.generation import generate_real_samples, generate_fake_samples, generate_latent_points
 from models.history import History
 
 
-def summarize_performance(epoch: int, generator: Model, discriminator: Model, dataset: Icons50Dataset, latent_dim: int,
-                          batch_size: int, num_classes: int) -> None:
+def summarize_performance(epoch: int, generator: Functional, discriminator: Functional, dataset: Icons50Dataset,
+                          latent_dim: int, batch_size: int, num_classes: int) -> None:
     """ Summarize model performance """
     # prepare real samples
     (X_real, labels_real), y_real = generate_real_samples(dataset, batch_size)
@@ -23,8 +23,8 @@ def summarize_performance(epoch: int, generator: Model, discriminator: Model, da
           f'acc_fake={acc_fake:.2%}%')
 
 
-def train_cgan(cgan: Model, generator: Model, discriminator: Model, dataset: Icons50Dataset, latent_dim: int,
-               epochs: int, batch_size: int, num_classes: int) -> History:
+def train_cgan(cgan: Functional, generator: Functional, discriminator: Functional, dataset: Icons50Dataset,
+               latent_dim: int, epochs: int, batch_size: int, num_classes: int) -> History:
     """ Train the cGAN model """
     # create history of performance for plotting
     history = History()

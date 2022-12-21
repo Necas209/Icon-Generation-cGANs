@@ -1,10 +1,10 @@
 from keras import Input
 from keras.layers import Concatenate, Dense, Conv2D, LeakyReLU, Embedding, Reshape, Conv2DTranspose, Flatten, Dropout
-from keras.models import Model
+from keras.models import Model, Functional
 from tensorflow.keras.optimizers import Adam
 
 
-def create_generator(latent_dim: int, num_classes: int) -> Model:
+def create_generator(latent_dim: int, num_classes: int) -> Functional:
     """ Create a generator model """
     # label input
     in_label = Input(shape=(1,))
@@ -38,7 +38,7 @@ def create_generator(latent_dim: int, num_classes: int) -> Model:
 
 
 # define the combined generator and discriminator model, for updating the generator
-def create_discriminator(image_size: int, channels: int, num_classes: int, lr: float, beta_1: float) -> Model:
+def create_discriminator(image_size: int, channels: int, num_classes: int, lr: float, beta_1: float) -> Functional:
     """ Create a discriminator model """
     # label input
     in_label = Input(shape=(1,))
@@ -77,7 +77,7 @@ def create_discriminator(image_size: int, channels: int, num_classes: int, lr: f
     return model
 
 
-def create_cgan(generator: Model, discriminator: Model, lr: float, beta_1: float) -> Model:
+def create_cgan(generator: Model, discriminator: Model, lr: float, beta_1: float) -> Functional:
     """ Create a cGAN model """
     # make weights in the discriminator not trainable
     discriminator.trainable = False

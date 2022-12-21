@@ -2,7 +2,7 @@ import math
 
 import matplotlib.pyplot as plt
 import numpy as np
-from keras.models import Model
+from keras.models import Functional
 
 from ds.dataset import Icons50Dataset
 
@@ -33,7 +33,7 @@ def generate_latent_points(latent_dim: int, num_samples: int, num_classes: int):
     return z_input, labels
 
 
-def generate_fake_samples(generator: Model, latent_dim: int, num_samples: int, num_classes: int):
+def generate_fake_samples(generator: Functional, latent_dim: int, num_samples: int, num_classes: int):
     """ Generate fake samples using the generator """
     # generate points in latent space
     z_input, labels_input = generate_latent_points(latent_dim, num_samples, num_classes)
@@ -44,7 +44,7 @@ def generate_fake_samples(generator: Model, latent_dim: int, num_samples: int, n
     return (images, labels_input), y
 
 
-def generate_images(generator: Model, label: int, latent_dim: int, num_images: int = 9) -> None:
+def generate_images(generator: Functional, label: int, latent_dim: int, num_images: int = 9) -> None:
     """ Create a plot of generated images given a label """
     # generate points in latent space
     z_input, _ = generate_latent_points(latent_dim, num_images, 1)
