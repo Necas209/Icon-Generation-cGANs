@@ -19,13 +19,14 @@ def plot_history(history: History) -> None:
     """ Plot the history of training """
     import matplotlib.pyplot as plt
     # plot loss
-    plt.subplot(2, 1, 1)
+    plt.figure(figsize=(10, 5))
     plt.plot(history.d_loss, label='discriminator')
     plt.plot(history.g_loss, label='generator')
     plt.legend()
     plt.title('Loss')
+    plt.show()
     # plot accuracy
-    plt.subplot(2, 1, 2)
+    plt.figure(figsize=(10, 5))
     plt.plot(history.d_acc, label='discriminator')
     plt.legend()
     plt.title('Accuracy')
