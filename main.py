@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import os
+
 import hydra
 from hydra.core.config_store import ConfigStore
 from keras.models import load_model
@@ -7,10 +9,9 @@ from keras.models import load_model
 from config import Icons50Config
 from ds.dataset import create_dataset, print_labels
 from ds.generation import generate_images
-from models.discriminator import create_discriminator
-from models.gan import create_gan
-from models.generator import create_generator
-from models.train import train_gan
+from models.cgan import create_cgan, create_generator, create_discriminator
+from models.history import plot_history
+from models.train import train_cgan
 
 cs = ConfigStore.instance()
 cs.store(name="icons50_config", node=Icons50Config)
@@ -18,59 +19,60 @@ cs.store(name="icons50_config", node=Icons50Config)
 
 @hydra.main(version_base=None, config_path="config", config_name="config")
 def main(cfg: Icons50Config) -> None:
+    """ Main function """
+    # suppress TensorFlow INFO messages
+    os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
     # Create the dataset
     dataset = create_dataset(cfg.file_path)
-
     # Shuffle the dataset
     if cfg.params.shuffle:
         dataset.shuffle()
-
     # create the discriminator
-    d_model = create_discriminator(
+    discriminator = create_discriminator(
         image_size=cfg.params.image_size,
         channels=cfg.params.channels,
-        n_classes=cfg.params.n_classes,
+        num_classes=cfg.params.num_classes,
         lr=cfg.optim.lr,
         beta_1=cfg.optim.beta_1,
     )
-
+    discriminator.summary()
     # create the generator
-    g_model = create_generator(
+    generator = create_generator(
         latent_dim=cfg.params.latent_dim,
-        n_classes=cfg.params.n_classes,
+        num_classes=cfg.params.num_classes,
     )
-
+    generator.summary()
     # create the gan
-    gan_model = create_gan(
-        g_model, d_model,
+    cgan = create_cgan(
+        generator=generator,
+        discriminator=discriminator,
         lr=cfg.optim.lr,
         beta_1=cfg.optim.beta_1
     )
-    gan_model.summary()
-
+    cgan.summary()
     # train model
-    train_gan(
-        g_model, d_model, gan_model,
+    history = train_cgan(
+        cgan=cgan,
+        generator=generator,
+        discriminator=discriminator,
         dataset=dataset,
         latent_dim=cfg.params.latent_dim,
-        n_epochs=cfg.params.epochs,
-        n_batch=cfg.params.batch_size,
-        n_classes=cfg.params.n_classes
+        epochs=cfg.params.epochs,
+        batch_size=cfg.params.batch_size,
+        num_classes=cfg.params.num_classes
     )
-
+    # plot history
+    plot_history(history)
     # load saved generator model
-    g_model = load_model('cgan_generator.h5')
-
+    generator = load_model('cgan_generator.h5')
     # Read the label from user input
     label = int(input("Enter the label: "))
     print_labels(dataset, label)
-
     # generate images
     generate_images(
-        g_model,
-        latent_dim=cfg.params.latent_dim,
-        n_images=9,
-        label=label
+        generator=generator,
+        label=label,
+        latent_dim=cfg.params.latent_dim
     )
 
 

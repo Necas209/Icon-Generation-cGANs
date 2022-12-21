@@ -10,7 +10,7 @@ class Optimizer:
 @dataclass
 class Params:
     latent_dim: int
-    n_classes: int
+    num_classes: int
     image_size: int
     channels: int
     epochs: int

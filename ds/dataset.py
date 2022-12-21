@@ -42,7 +42,7 @@ class Icons50Dataset:
     def __len__(self) -> int:
         return len(self.images)
 
-    def __iter__(self) -> Any:
+    def __iter__(self) -> Icons50Dataset:
         return self
 
     def __next__(self) -> tuple[np.ndarray, np.ndarray]:
