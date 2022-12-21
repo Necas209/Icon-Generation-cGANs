@@ -1,4 +1,4 @@
-file_path: data/Icons-50.npy
+file_path: data/Icons-50.pkl
 params:
   latent_dim: 100
   num_classes: 50
