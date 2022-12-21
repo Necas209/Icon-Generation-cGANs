@@ -1,9 +1,8 @@
 from __future__ import annotations
 
 import os
-import sys
+import pickle
 from dataclasses import dataclass
-from typing import Any
 
 import numpy as np
 
@@ -58,12 +57,8 @@ class Icons50Dataset:
 def create_dataset(path: str | bytes | os.PathLike) -> Icons50Dataset:
     """ Create a dataset from a path """
     # Load the icons-50 dataset
-    icons: dict | Any
-    # check if python version is 3.8 or lower
-    if sys.version_info < (3, 9):
-        icons = np.load(path).item()
-    else:
-        icons = np.load(path, allow_pickle=True).item()
+    with open(path, 'rb') as f:
+        icons = pickle.load(f)
     # Convert the lists to numpy arrays
     icons = {k: np.array(v) for k, v in icons.items()}
     # Create the dataset
