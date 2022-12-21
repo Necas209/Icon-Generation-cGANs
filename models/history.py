@@ -1,6 +1,8 @@
 from dataclasses import dataclass, field
 from typing import List
 
+from matplotlib import pyplot as plt
+
 
 @dataclass
 class History:
@@ -17,7 +19,6 @@ class History:
 
 def plot_history(history: History) -> None:
     """ Plot the history of training """
-    import matplotlib.pyplot as plt
     # plot loss
     plt.figure(figsize=(10, 5))
     plt.plot(history.d_loss, label='discriminator')
