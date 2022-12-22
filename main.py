@@ -62,7 +62,7 @@ def main(cfg: Icons50Config) -> None:
     # plot history
     plot_history(history)
     # save models
-    save_models(generator, discriminator, cfg.save_path)
+    save_models(generator, discriminator, cgan, cfg.save_path)
     # load saved generator model
     generator = load_model('cgan_generator.h5')
     # Read the label from user input
