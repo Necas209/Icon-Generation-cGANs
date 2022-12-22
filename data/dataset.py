@@ -50,6 +50,23 @@ class Icons50Dataset:
         print("Class distribution:")
         for label, count in details:
             print(f"Class {label} has {count} images")
+        print(f"First {first_k} classes represent {sum(x[1] for x in details) / len(self):.2%}% of the dataset")
+
+    def filter(self, most_common: int | None = None) -> Icons50Dataset:
+        """ Filter the dataset by the number of images per class """
+        if most_common is None:
+            return self
+        labels, counts = np.unique(self.labels, return_counts=True)
+        labels = labels[counts.argsort()[::-1]]
+        labels = labels[:most_common]
+        mask = np.isin(self.labels, labels)
+        return Icons50Dataset(
+            images=self.images[mask],
+            labels=self.labels[mask],
+            subtypes=self.subtypes[mask],
+            styles=self.styles[mask],
+            renditions=self.renditions[mask]
+        )
 
     def __getitem__(self, index: int) -> tuple[np.ndarray, np.ndarray]:
         return self.images[index], self.labels[index]
