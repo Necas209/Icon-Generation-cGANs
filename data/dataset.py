@@ -38,13 +38,13 @@ class Icons50Dataset:
 
     def summary(self, ordered: bool = False) -> None:
         """ Print a summary of the dataset """
-        details = [(label, np.count_nonzero(self.labels == label))
-                   for label in np.unique(self.labels)]
+        labels = np.unique(self.labels)
+        details = [(label, np.count_nonzero(self.labels == label)) for label in labels]
         if ordered:
             details.sort(key=lambda x: x[1], reverse=True)
         print("Dataset summary:")
         print(f"Number of images: {len(self)}")
-        print(f"Number of classes: {len(np.unique(self.labels))}")
+        print(f"Number of classes: {len(labels)}")
         print("Class distribution:")
         for label, count in details:
             print(f"Class {label} has {count} images")
