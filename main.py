@@ -25,8 +25,6 @@ def main(cfg: Icons50Config) -> None:
     # Shuffle the dataset
     if cfg.params.shuffle:
         dataset.shuffle()
-    # Filter the dataset
-    dataset.filter(most_common=20)
     # create the discriminator
     discriminator = create_discriminator(
         image_size=cfg.params.image_size,
