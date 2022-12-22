@@ -42,15 +42,15 @@ class Icons50Dataset:
         details = [(label, np.count_nonzero(self.labels == label)) for label in labels]
         if ordered:
             details.sort(key=lambda x: x[1], reverse=True)
-        if first_k is not None:
-            details = details[:first_k]
         print("Dataset summary:")
         print(f"Number of images: {len(self)}")
         print(f"Number of classes: {len(labels)}")
         print("Class distribution:")
+        if first_k is not None:
+            details = details[:first_k]
+            print(f"First {first_k} classes represent {sum(x[1] for x in details) / len(self):.2%}% of the dataset")
         for label, count in details:
             print(f"Class {label} has {count} images")
-        print(f"First {first_k} classes represent {sum(x[1] for x in details) / len(self):.2%}% of the dataset")
 
     def filter(self, most_common: int | None = None) -> Icons50Dataset:
         """ Filter the dataset by the number of images per class """
