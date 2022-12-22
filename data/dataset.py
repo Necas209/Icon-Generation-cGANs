@@ -23,8 +23,10 @@ class Icons50Dataset:
 
     def __post_init__(self) -> None:
         self.__index = 0
-        self.images = self.images.astype(np.float32)
-        self.images = (self.images - 127.5) / 127.5
+
+    def preprocess(self) -> None:
+        """ Preprocess the dataset """
+        self.images = (self.images.astype(np.float32) - 127.5) / 127.5
         self.images = np.transpose(self.images, (0, 2, 3, 1))
 
     def shuffle(self) -> None:
