@@ -59,13 +59,15 @@ class Icons50Dataset:
         labels, counts = np.unique(self.labels, return_counts=True)
         labels = labels[counts.argsort()[::-1]]
         labels = labels[:most_common]
-        mask = np.isin(self.labels, labels)
+        # map labels to new labels
+        label_map = {label: i for i, label in enumerate(labels)}
+        labels = np.array([label_map.get(label, -1) for label in self.labels])
         return Icons50Dataset(
-            images=self.images[mask],
-            labels=self.labels[mask],
-            subtypes=self.subtypes[mask],
-            styles=self.styles[mask],
-            renditions=self.renditions[mask]
+            images=self.images[labels != -1],
+            labels=labels[labels != -1],
+            subtypes=self.subtypes[labels != -1],
+            styles=self.styles[labels != -1],
+            renditions=self.renditions[labels != -1],
         )
 
     def __getitem__(self, index: int) -> tuple[np.ndarray, np.ndarray]:
