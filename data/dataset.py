@@ -36,12 +36,14 @@ class Icons50Dataset:
         self.styles = self.styles[p]
         self.renditions = self.renditions[p]
 
-    def summary(self, ordered: bool = False) -> None:
+    def summary(self, ordered: bool = False, first_k: int | None = None) -> None:
         """ Print a summary of the dataset """
         labels = np.unique(self.labels)
         details = [(label, np.count_nonzero(self.labels == label)) for label in labels]
         if ordered:
             details.sort(key=lambda x: x[1], reverse=True)
+        if first_k is not None:
+            details = details[:first_k]
         print("Dataset summary:")
         print(f"Number of images: {len(self)}")
         print(f"Number of classes: {len(labels)}")
