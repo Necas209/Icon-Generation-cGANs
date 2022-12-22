@@ -3,6 +3,7 @@ import os
 import hydra
 from hydra.core.config_store import ConfigStore
 from keras.models import load_model
+from omegaconf import DictConfig
 
 from config.config import Icons50Config
 from data.dataset import create_dataset, print_labels
@@ -22,6 +23,8 @@ def main(cfg: Icons50Config) -> None:
     os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
     # Create the dataset
     dataset = create_dataset(cfg.file_path)
+    # Preprocess the dataset
+    dataset.preprocess()
     # Shuffle the dataset
     if cfg.params.shuffle:
         dataset.shuffle()

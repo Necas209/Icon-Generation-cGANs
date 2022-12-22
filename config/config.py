@@ -22,5 +22,6 @@ class Params:
 class Icons50Config:
     file_path: str
     save_path: str
+    filt_save_path: str
     params: Params
     optim: Optimizer
