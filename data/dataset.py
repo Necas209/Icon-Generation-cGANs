@@ -36,9 +36,18 @@ class Icons50Dataset:
         self.styles = self.styles[p]
         self.renditions = self.renditions[p]
 
-    def summary(self) -> None:
-        for label in range(max(self.labels) + 1):
-            print(f"Label {label}: {np.sum(self.labels == label)} images")
+    def summary(self, ordered: bool = False) -> None:
+        """ Print a summary of the dataset """
+        details = [(label, np.count_nonzero(self.labels == label))
+                   for label in np.unique(self.labels)]
+        if ordered:
+            details.sort(key=lambda x: x[1], reverse=True)
+        print("Dataset summary:")
+        print(f"Number of images: {len(self)}")
+        print(f"Number of classes: {len(np.unique(self.labels))}")
+        print("Class distribution:")
+        for label, count in details:
+            print(f"Class {label} has {count} images")
 
     def __getitem__(self, index: int) -> tuple[np.ndarray, np.ndarray]:
         return self.images[index], self.labels[index]
