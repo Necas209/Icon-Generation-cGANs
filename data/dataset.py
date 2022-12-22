@@ -36,6 +36,10 @@ class Icons50Dataset:
         self.styles = self.styles[p]
         self.renditions = self.renditions[p]
 
+    def summary(self) -> None:
+        for label in range(max(self.labels) + 1):
+            print(f"Label {label}: {np.sum(self.labels == label)} images")
+
     def __getitem__(self, index: int) -> tuple[np.ndarray, np.ndarray]:
         return self.images[index], self.labels[index]
 
