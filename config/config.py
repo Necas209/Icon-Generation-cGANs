@@ -19,9 +19,17 @@ class Params:
 
 
 @dataclass
-class Icons50Config:
-    file_path: str
+class Paths:
+    data_path: str
     save_path: str
     filt_save_path: str
+    gen_path: str
+    disc_path: str
+    cgan_path: str
+
+
+@dataclass
+class Icons50Config:
+    paths: Paths
     params: Params
     optim: Optimizer

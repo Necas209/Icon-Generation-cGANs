@@ -1,6 +1,10 @@
-file_path: Icons-50.pkl
-save_path: models/
-filt_save_path: models/filt/
+paths:
+  data_path: Icons-50.pkl
+  save_path: models/
+  filt_save_path: models/filt/
+  gen_path: generator.tflite
+  disc_path: discriminator.tflite
+  cgan_path: cgan.tflite
 params:
   latent_dim: 100
   num_classes: 50

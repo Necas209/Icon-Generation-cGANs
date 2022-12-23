@@ -3,7 +3,6 @@ import os
 import hydra
 from hydra.core.config_store import ConfigStore
 from keras.models import load_model
-from omegaconf import DictConfig
 
 from config.config import Icons50Config
 from data.dataset import create_dataset, print_labels
@@ -22,7 +21,7 @@ def main(cfg: Icons50Config) -> None:
     # suppress TensorFlow INFO messages
     os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
     # Create the dataset
-    dataset = create_dataset(cfg.file_path)
+    dataset = create_dataset(cfg.paths.data_path)
     # Preprocess the dataset
     dataset.preprocess()
     # Shuffle the dataset
@@ -65,12 +64,22 @@ def main(cfg: Icons50Config) -> None:
     # plot history
     plot_history(history)
     # save models
-    save_models(generator, discriminator, cgan, cfg.save_path)
+    save_models(
+        generator=generator,
+        discriminator=discriminator,
+        cgan=cgan,
+        save_path=cfg.paths.save_path,
+        gen_name=cfg.paths.gen_path,
+        disc_name=cfg.paths.disc_path,
+        cgan_name=cfg.paths.cgan_path
+    )
+    # filter the dataset
+    filtered_ds = dataset.filter(most_common=20)
     # load saved generator model
-    generator = load_model('cgan_generator.h5')
+    generator = load_model(os.path.join(cfg.paths.filt_save_path, cfg.paths.gen_path))
     # Read the label from user input
     label = int(input("Enter the label: "))
-    print_labels(dataset, label)
+    print_labels(filtered_ds, label)
     # generate images
     generate_images(
         generator=generator,
