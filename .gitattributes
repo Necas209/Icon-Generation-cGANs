@@ -3,3 +3,10 @@
 # Git LFS tracked files
 data/Icons-50.npy filter=lfs diff=lfs merge=lfs -text
 models/** filter=lfs diff=lfs merge=lfs -text
+models/cgan.h5 filter=lfs diff=lfs merge=lfs -text
+models/discriminator.h5 filter=lfs diff=lfs merge=lfs -text
+models/filt filter=lfs diff=lfs merge=lfs -text
+models/generator.h5 filter=lfs diff=lfs merge=lfs -text
+models/filt/cgan.h5 filter=lfs diff=lfs merge=lfs -text
+models/filt/discriminator.h5 filter=lfs diff=lfs merge=lfs -text
+models/filt/generator.h5 filter=lfs diff=lfs merge=lfs -text
