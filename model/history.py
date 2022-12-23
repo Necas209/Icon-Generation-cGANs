@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 
 
 @dataclass

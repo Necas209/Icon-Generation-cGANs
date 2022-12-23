@@ -49,7 +49,7 @@ class Icons50Dataset:
             details.sort(key=lambda x: x[1], reverse=True)
         print("Dataset summary:")
         print(f"Number of images: {len(self)}")
-        print(f"Number of classes: {len(labels)}")
+        print(f"Number of classes: {len(self.classes)}")
         print("Class distribution:")
         if first_k is not None:
             details = details[:first_k]
