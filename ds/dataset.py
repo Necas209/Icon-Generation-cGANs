@@ -4,6 +4,7 @@ import os
 import pickle
 from dataclasses import dataclass
 
+import matplotlib.pyplot as plt
 import numpy as np
 
 
@@ -53,8 +54,11 @@ class Icons50Dataset:
         if first_k is not None:
             details = details[:first_k]
             print(f"First {first_k} classes represent {sum(x[1] for x in details) / len(self):.2%}% of the dataset")
-        for label, count in details:
-            print(f"Class {label} has {count} images")
+        # plot histogram of class distribution
+        plt.hist([x[1] for x in details], bins=len(details))
+        plt.xlabel("Class label")
+        plt.ylabel("Number of images")
+        plt.show()
 
     def filter(self, most_common: int | None = None) -> Icons50Dataset:
         """ Filter the dataset by the number of images per class """
