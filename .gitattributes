@@ -1,12 +1,5 @@
+# Auto detect text files and perform LF normalization
+* text=auto
 # Git LFS tracked files
 data/Icons-50.npy filter=lfs diff=lfs merge=lfs -text
 models/** filter=lfs diff=lfs merge=lfs -text
-# Auto detect text files and perform LF normalization
-* text=auto
-models/cgan.tflite filter=lfs diff=lfs merge=lfs -text
-models/discriminator.tflite filter=lfs diff=lfs merge=lfs -text
-models/generator.tflite filter=lfs diff=lfs merge=lfs -text
-models/filt filter=lfs diff=lfs merge=lfs -text
-models/filt/generator.tflite filter=lfs diff=lfs merge=lfs -text
-models/filt/cgan.tflite filter=lfs diff=lfs merge=lfs -text
-models/filt/discriminator.tflite filter=lfs diff=lfs merge=lfs -text

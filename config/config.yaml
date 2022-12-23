@@ -2,9 +2,9 @@ paths:
   data_path: Icons-50.pkl
   save_path: models/
   filt_save_path: models/filt/
-  gen_path: generator.tflite
-  disc_path: discriminator.tflite
-  cgan_path: cgan.tflite
+  gen_path: generator.h5
+  disc_path: discriminator.h5
+  cgan_path: cgan.h5
 params:
   latent_dim: 100
   num_classes: 50
