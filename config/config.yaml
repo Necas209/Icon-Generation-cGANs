@@ -1,5 +1,6 @@
 paths:
-  data_path: Icons-50.pkl
+  data_path: data/Icons-50.pkl
+  classes_path: data/classes.txt
   save_path: models/
   filt_save_path: models/filt/
 params:

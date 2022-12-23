@@ -5,8 +5,8 @@ import os
 import numpy as np
 from keras.models import Functional
 
-from data.dataset import Icons50Dataset
-from data.generation import generate_real_samples, generate_fake_samples, generate_latent_points
+from ds.dataset import Icons50Dataset
+from ds.generation import generate_real_samples, generate_fake_samples, generate_latent_points
 from model.history import History
 
 

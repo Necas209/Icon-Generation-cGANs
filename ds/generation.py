@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from keras.models import Functional
 
-from data.dataset import Icons50Dataset
+from ds.dataset import Icons50Dataset
 
 
 def generate_real_samples(dataset: Icons50Dataset, num_samples: int):

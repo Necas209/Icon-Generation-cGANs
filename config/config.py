@@ -21,6 +21,7 @@ class Params:
 @dataclass
 class Paths:
     data_path: str
+    classes_path: str
     save_path: str
     filt_save_path: str
 

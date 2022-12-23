@@ -14,6 +14,8 @@ class Icons50Dataset:
     """ image is a 3D numpy array of shape (32, 32, 3) """
     labels: np.ndarray[int]
     """ label is an integer in [0, 49] that represents the class of the image """
+    classes: np.ndarray[str]
+    """ classes is a list of strings that represent the classes of the dataset """
     subtypes: np.ndarray[str]
     """ subtype is a string that represents the icon subtype """
     styles: np.ndarray[str]
@@ -61,12 +63,14 @@ class Icons50Dataset:
         labels, counts = np.unique(self.labels, return_counts=True)
         labels = labels[counts.argsort()[::-1]]
         labels = labels[:most_common]
+        classes = self.classes[labels]
         # map labels to new labels
         label_map = {label: i for i, label in enumerate(labels)}
         labels = np.array([label_map.get(label, -1) for label in self.labels])
         return Icons50Dataset(
             images=self.images[labels != -1],
             labels=labels[labels != -1],
+            classes=classes,
             subtypes=self.subtypes[labels != -1],
             styles=self.styles[labels != -1],
             renditions=self.renditions[labels != -1],
@@ -90,21 +94,31 @@ class Icons50Dataset:
             return self[self.__index - 1]
 
 
-def create_dataset(path: str | bytes | os.PathLike) -> Icons50Dataset:
+def create_dataset(data_path: str | bytes | os.PathLike, classes_path: str | bytes | os.PathLike) -> Icons50Dataset:
     """ Create a dataset from a path """
     # Load the icons-50 dataset
-    with open(path, 'rb') as f:
+    with open(data_path, 'rb') as f:
         icons = pickle.load(f)
     # Convert the lists to numpy arrays
     icons = {k: np.array(v) for k, v in icons.items()}
+    # Read the classes
+    classes = read_classes(classes_path)
+    classes = np.array(classes)
     # Create the dataset
     return Icons50Dataset(
         images=icons["image"],
         labels=icons["class"],
+        classes=classes,
         subtypes=icons["subtype"],
         styles=icons["style"],
         renditions=icons["rendition"]
     )
+
+
+def read_classes(path: str | bytes | os.PathLike) -> list[str]:
+    """ Read the classes from a file """
+    with open(path, 'r') as f:
+        return [line.strip() for line in f]
 
 
 def print_labels(dataset: Icons50Dataset, filter_label: int | None = None) -> None:
@@ -118,5 +132,7 @@ def print_labels(dataset: Icons50Dataset, filter_label: int | None = None) -> No
     # If a label is specified, print only that label
     if filter_label is not None:
         types = [x for x in types if x[0] == filter_label]
-    for label, subtype in types:
-        print(f"{label}: {subtype}")
+    print(f"Class: {dataset.classes[filter_label]} ({filter_label})")
+    print("Subtypes:")
+    for i, (_, subtype) in enumerate(types):
+        print(f"{i:2d}. {subtype}")
