@@ -55,7 +55,7 @@ class Icons50Dataset:
             details = details[:first_k]
             print(f"First {first_k} classes represent {sum(x[1] for x in details) / len(self):.2%}% of the dataset")
         # plot histogram of class distribution
-        plt.stairs([x[1] for x in details], [x[0] for x in details])
+        plt.bar([x[0] for x in details], [x[1] for x in details])
         plt.xlabel("Class label")
         plt.ylabel("Number of images")
         plt.show()
