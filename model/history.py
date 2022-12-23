@@ -12,23 +12,20 @@ class History:
     g_loss: List[float] = field(default_factory=list)
 
     def add(self, d_loss: float, d_acc: float, g_loss: float) -> None:
+        """ Add a new entry to the history """
         self.d_loss.append(d_loss)
         self.d_acc.append(d_acc)
         self.g_loss.append(g_loss)
 
+    def plot(self) -> None:
+        """ Plot the history """
+        plt.plot(self.d_loss, label='discriminator')
+        plt.plot(self.g_loss, label='generator')
+        plt.legend()
+        plt.title('Loss')
+        plt.show()
 
-def plot_history(history: History) -> None:
-    """ Plot the history of training """
-    # plot loss
-    plt.figure(figsize=(10, 5))
-    plt.plot(history.d_loss, label='discriminator')
-    plt.plot(history.g_loss, label='generator')
-    plt.legend()
-    plt.title('Loss')
-    plt.show()
-    # plot accuracy
-    plt.figure(figsize=(10, 5))
-    plt.plot(history.d_acc, label='discriminator')
-    plt.legend()
-    plt.title('Accuracy')
-    plt.show()
+        plt.plot(self.d_acc, label='discriminator')
+        plt.legend()
+        plt.title('Accuracy')
+        plt.show()

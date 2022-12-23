@@ -23,9 +23,6 @@ class Paths:
     data_path: str
     save_path: str
     filt_save_path: str
-    gen_path: str
-    disc_path: str
-    cgan_path: str
 
 
 @dataclass

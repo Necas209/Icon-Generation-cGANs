@@ -7,9 +7,8 @@ from keras.models import load_model
 from config.config import Icons50Config
 from data.dataset import create_dataset, print_labels
 from data.generation import generate_images
-from model.cgan import create_cgan, create_generator, create_discriminator
-from model.history import plot_history
-from model.train import train_cgan, save_models
+from model.cgan import create_discriminator, create_generator, create_cgan
+from model.train import save_models, train_cgan
 
 cs = ConfigStore.instance()
 cs.store(name="icons50_config", node=Icons50Config)
@@ -62,21 +61,18 @@ def main(cfg: Icons50Config) -> None:
         num_classes=cfg.params.num_classes
     )
     # plot history
-    plot_history(history)
+    history.plot()
     # save models
     save_models(
         generator=generator,
         discriminator=discriminator,
         cgan=cgan,
-        save_path=cfg.paths.save_path,
-        gen_name=cfg.paths.gen_path,
-        disc_name=cfg.paths.disc_path,
-        cgan_name=cfg.paths.cgan_path
+        path=cfg.paths.save_path
     )
     # filter the dataset
     filtered_ds = dataset.filter(most_common=20)
     # load saved generator model
-    generator = load_model(os.path.join(cfg.paths.filt_save_path, cfg.paths.gen_path))
+    generator = load_model(os.path.join(cfg.paths.filt_save_path, "generator"))
     # Read the label from user input
     label = int(input("Enter the label: "))
     print_labels(filtered_ds, label)

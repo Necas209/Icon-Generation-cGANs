@@ -79,8 +79,8 @@ def train_cgan(cgan: Functional, generator: Functional, discriminator: Functiona
 
 
 def save_models(generator: Functional, discriminator: Functional, cgan: Functional,
-                save_path: str | bytes | os.PathLike, gen_name: str, disc_name: str, cgan_name: str) -> None:
-    """ Save the models """
-    generator.save(os.path.join(save_path, gen_name))
-    discriminator.save(os.path.join(save_path, disc_name))
-    cgan.save(os.path.join(save_path, cgan_name))
+                path: str | bytes | os.PathLike) -> None:
+    """ Save the models to file in SavedModel format """
+    generator.save(os.path.join(path, 'generator'))
+    discriminator.save(os.path.join(path, 'discriminator'))
+    cgan.save(os.path.join(path, 'cgan'))
