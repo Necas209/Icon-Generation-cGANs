@@ -41,22 +41,23 @@ class Icons50Dataset:
         self.styles = self.styles[p]
         self.renditions = self.renditions[p]
 
-    def summary(self, first_k: int | None = None) -> None:
+    def summary(self, top_k: int | None = None) -> None:
         """ Print a summary of the dataset """
+        no_images = len(self)
         no_classes = len(self.classes)
-        counts = [np.count_nonzero(self.labels == i) for i in range(no_classes)]
         print("Dataset summary:")
-        print(f"Number of images: {len(self)}")
-        print(f"Number of classes: {len(self.classes)}")
+        print(f"Number of images: {no_images}")
+        print(f"Number of classes: {no_classes}")
         print("Class distribution:")
-        plt.hist(counts, bins=50)
+        if top_k is not None:
+            _, counts = np.unique(self.labels, return_counts=True)
+            counts = counts[counts.argsort()[::-1]]
+            counts = counts[:top_k]
+            print(f"Top {top_k} classes account for {sum(counts)} images ({sum(counts) / no_images:%}%)")
+        plt.hist(self.labels, bins=no_classes)
         plt.xlabel("Class label")
         plt.ylabel("Number of images")
         plt.show()
-        if first_k is not None:
-            counts.sort(reverse=True)
-            counts = counts[:first_k]
-            print(f"Top {first_k} classes account for {sum(counts)} images ({sum(counts) / len(self):%}%)")
 
     def filter(self, most_common: int | None = None) -> Icons50Dataset:
         """ Filter the dataset by the number of images per class """

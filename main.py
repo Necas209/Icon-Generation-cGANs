@@ -26,6 +26,8 @@ def main(cfg: Icons50Config) -> None:
     )
     # Preprocess the dataset
     dataset.preprocess()
+    # Show dataset summary
+    dataset.summary()
     # Shuffle the dataset
     if cfg.params.shuffle:
         dataset.shuffle()
