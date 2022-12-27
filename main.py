@@ -23,7 +23,7 @@ def main(cfg: Icons50Config) -> None:
     classes = read_classes(cfg.paths.classes_path)
     # Load dataset
     dataset = Icons50Dataset.from_pickle(
-        data_path=cfg.paths.data_path,
+        path=cfg.paths.data_path,
         classes=classes,
     )
     # Preprocess the dataset

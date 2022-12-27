@@ -95,10 +95,10 @@ class Icons50Dataset:
             print(f"{subtype}: {count}")
 
     @staticmethod
-    def from_pickle(data_path: str | bytes | os.PathLike, classes: list[str]) -> Icons50Dataset:
+    def from_pickle(path: str | bytes | os.PathLike, classes: list[str]) -> Icons50Dataset:
         """ Create a dataset from a path """
         # Load the icons-50 dataset
-        with open(data_path, 'rb') as f:
+        with open(path, 'rb') as f:
             icons = pickle.load(f)
         # Convert the lists to numpy arrays
         icons = {k: np.array(v) for k, v in icons.items()}
