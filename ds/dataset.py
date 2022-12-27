@@ -24,8 +24,9 @@ class Icons50Dataset:
     renditions: np.ndarray[int]
     """ rendition is an integer in [0, 9] that represents the icon version """
 
-    def __post_init__(self) -> None:
-        self.__index = 0
+    def __len__(self) -> int:
+        """ Return the number of images in the dataset """
+        return len(self.images)
 
     def preprocess(self) -> None:
         """ Preprocess the dataset """
@@ -59,13 +60,15 @@ class Icons50Dataset:
         plt.ylabel("Number of images")
         plt.show()
 
-    def filter(self, most_common: int | None = None) -> Icons50Dataset:
-        """ Filter the dataset by the number of images per class """
-        if most_common is None:
-            return self
+    def filter(self, top_k: int) -> Icons50Dataset:
+        """ Filter the dataset to contain only the top k classes """
+        # Get the top k classes
         labels, counts = np.unique(self.labels, return_counts=True)
+        # Sort the classes by count
         labels = labels[counts.argsort()[::-1]]
-        labels = labels[:most_common]
+        # Get the top k labels
+        labels = labels[:top_k]
+        # Filter the dataset
         classes = self.classes[labels]
         # map labels to new labels
         label_map = {label: i for i, label in enumerate(labels)}
@@ -79,63 +82,39 @@ class Icons50Dataset:
             renditions=self.renditions[labels != -1],
         )
 
-    def __getitem__(self, index: int) -> tuple[np.ndarray, np.ndarray]:
-        return self.images[index], self.labels[index]
+    def print_subtypes(self, label: int | None = None) -> None:
+        """ Print the subtypes of the dataset for a given class """
+        if label is None:
+            for label in range(len(self.classes)):
+                print(f"Class {label}: {self.classes[label]}")
+                self.print_subtypes(label)
+            return
+        subtypes, counts = np.unique(self.subtypes[self.labels == label], return_counts=True)
+        print(f"Subtypes for class {label}: {self.classes[label]}")
+        for subtype, count in zip(subtypes, counts):
+            print(f"{subtype}: {count}")
 
-    def __len__(self) -> int:
-        return len(self.images)
-
-    def __iter__(self) -> Icons50Dataset:
-        return self
-
-    def __next__(self) -> tuple[np.ndarray, np.ndarray]:
-        if self.__index >= len(self):
-            self.__index = 0
-            raise StopIteration
-        else:
-            self.__index += 1
-            return self[self.__index - 1]
-
-
-def create_dataset(data_path: str | bytes | os.PathLike, classes_path: str | bytes | os.PathLike) -> Icons50Dataset:
-    """ Create a dataset from a path """
-    # Load the icons-50 dataset
-    with open(data_path, 'rb') as f:
-        icons = pickle.load(f)
-    # Convert the lists to numpy arrays
-    icons = {k: np.array(v) for k, v in icons.items()}
-    # Read the classes
-    classes = read_classes(classes_path)
-    classes = np.array(classes)
-    # Create the dataset
-    return Icons50Dataset(
-        images=icons["image"],
-        labels=icons["class"],
-        classes=classes,
-        subtypes=icons["subtype"],
-        styles=icons["style"],
-        renditions=icons["rendition"]
-    )
+    @staticmethod
+    def from_pickle(data_path: str | bytes | os.PathLike, classes: list[str]) -> Icons50Dataset:
+        """ Create a dataset from a path """
+        # Load the icons-50 dataset
+        with open(data_path, 'rb') as f:
+            icons = pickle.load(f)
+        # Convert the lists to numpy arrays
+        icons = {k: np.array(v) for k, v in icons.items()}
+        classes = np.array(classes)
+        # Create the dataset
+        return Icons50Dataset(
+            images=icons["image"],
+            labels=icons["class"],
+            classes=classes,
+            subtypes=icons["subtype"],
+            styles=icons["style"],
+            renditions=icons["rendition"]
+        )
 
 
 def read_classes(path: str | bytes | os.PathLike) -> list[str]:
     """ Read the classes from a file """
     with open(path, 'r') as f:
         return [line.strip() for line in f]
-
-
-def print_labels(dataset: Icons50Dataset, filter_label: int | None = None) -> None:
-    """ Print the labels and subtypes """
-    # Zip the labels and subtypes
-    types = list(zip(dataset.labels, dataset.subtypes))
-    # Filter out the duplicates
-    types = list(set(types))
-    # Sort the types
-    types.sort(key=lambda x: (x[0], x[1]))
-    # If a label is specified, print only that label
-    if filter_label is not None:
-        types = [x for x in types if x[0] == filter_label]
-    print(f"Class: {dataset.classes[filter_label]} ({filter_label})")
-    print("Subtypes:")
-    for i, (_, subtype) in enumerate(types):
-        print(f"{i:2d}. {subtype}")

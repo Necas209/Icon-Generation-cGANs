@@ -5,7 +5,7 @@ from hydra.core.config_store import ConfigStore
 from keras.models import load_model
 
 from config.config import Icons50Config
-from ds.dataset import create_dataset, print_labels
+from ds.dataset import Icons50Dataset, read_classes
 from ds.generation import generate_images
 from model.cgan import create_discriminator, create_generator, create_cgan
 from model.train import save_models, train_cgan
@@ -19,10 +19,12 @@ def main(cfg: Icons50Config) -> None:
     """ Main function """
     # suppress TensorFlow INFO messages
     os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
-    # Create the dataset
-    dataset = create_dataset(
+    # Read classes
+    classes = read_classes(cfg.paths.classes_path)
+    # Load dataset
+    dataset = Icons50Dataset.from_pickle(
         data_path=cfg.paths.data_path,
-        classes_path=cfg.paths.classes_path,
+        classes=classes,
     )
     # Preprocess the dataset
     dataset.preprocess()
@@ -75,12 +77,12 @@ def main(cfg: Icons50Config) -> None:
         path=cfg.paths.save_path
     )
     # filter the dataset
-    filtered_ds = dataset.filter(most_common=10)
+    filtered_ds = dataset.filter(top_k=10)
     # load saved generator model
     generator = load_model(os.path.join(cfg.paths.filt_save_path, "generator"))
     # Read the label from user input
     label = int(input("Enter the label: "))
-    print_labels(filtered_ds, label)
+    filtered_ds.print_subtypes(label)
     # generate images
     generate_images(
         generator=generator,

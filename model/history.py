@@ -1,5 +1,4 @@
 from dataclasses import dataclass, field
-from typing import List
 
 import matplotlib.pyplot as plt
 
@@ -7,9 +6,9 @@ import matplotlib.pyplot as plt
 @dataclass
 class History:
     """ History of training """
-    d_loss: List[float] = field(default_factory=list)
-    d_acc: List[float] = field(default_factory=list)
-    g_loss: List[float] = field(default_factory=list)
+    d_loss: list[float] = field(default_factory=list)
+    d_acc: list[float] = field(default_factory=list)
+    g_loss: list[float] = field(default_factory=list)
 
     def add(self, d_loss: float, d_acc: float, g_loss: float) -> None:
         """ Add a new entry to the history """

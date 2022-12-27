@@ -23,8 +23,8 @@ def summarize_performance(epoch: int, generator: Functional, discriminator: Func
     _, acc_fake = discriminator.evaluate([X_fake, labels], y_fake, verbose=0)
     # summarize discriminator performance
     print(f'> Epoch {epoch + 1}: '
-          f'acc_real={acc_real:.2%}%, '
-          f'acc_fake={acc_fake:.2%}%')
+          f'acc_real={acc_real:.2%}, '
+          f'acc_fake={acc_fake:.2%}')
 
 
 def train_cgan(cgan: Functional, generator: Functional, discriminator: Functional, dataset: Icons50Dataset,
@@ -41,9 +41,9 @@ def train_cgan(cgan: Functional, generator: Functional, discriminator: Functiona
     # calculate the size of half a batch of samples
     half_batch = int(batch_size / 2)
     # manually enumerate epochs
-    for i in range(epochs):
+    for epoch in range(epochs):
         # enumerate batches over the training set
-        for j in range(batches_per_epoch):
+        for batch in range(batches_per_epoch):
             # get randomly selected 'real' samples
             (X_real, labels_real), y_real = generate_real_samples(dataset, half_batch)
             # update discriminator model weights
@@ -63,8 +63,8 @@ def train_cgan(cgan: Functional, generator: Functional, discriminator: Functiona
             # calculate the discriminator accuracy
             d_acc = 0.5 * np.add(d_acc1, d_acc2)
             # summarize loss on this batch
-            print(f'\r> Epoch {i + 1}: '
-                  f'Batch {j + 1}/{batches_per_epoch}, '
+            print(f'\r> Epoch {epoch + 1}: '
+                  f'Batch {batch + 1}/{batches_per_epoch}, '
                   f'disc_loss={d_loss:.3f}, '
                   f'disc_acc={d_acc:.3f}, '
                   f'gen_loss={g_loss:.3f}',
@@ -73,8 +73,8 @@ def train_cgan(cgan: Functional, generator: Functional, discriminator: Functiona
         # save metrics to history
         history.add(d_loss, d_acc, g_loss)
         # evaluate the model performance, sometimes
-        if (i + 1) % 10 == 0:
-            summarize_performance(i, generator, discriminator, dataset, latent_dim, batch_size, num_classes)
+        if (epoch + 1) % 10 == 0:
+            summarize_performance(epoch, generator, discriminator, dataset, latent_dim, batch_size, num_classes)
     return history
 
 
