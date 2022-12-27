@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import math
 
 import matplotlib.pyplot as plt
@@ -6,8 +8,10 @@ from keras.models import Functional
 
 from ds.dataset import Icons50Dataset
 
+NDArrayTuple = tuple[np.ndarray, np.ndarray]
 
-def generate_real_samples(dataset: Icons50Dataset, num_samples: int):
+
+def generate_real_samples(dataset: Icons50Dataset, num_samples: int) -> tuple[NDArrayTuple, np.ndarray]:
     """ Select real samples from the dataset """
     # get images and labels
     images = dataset.images
@@ -22,7 +26,7 @@ def generate_real_samples(dataset: Icons50Dataset, num_samples: int):
     return (x, labels), y
 
 
-def generate_latent_points(latent_dim: int, num_samples: int, num_classes: int):
+def generate_latent_points(latent_dim: int, num_samples: int, num_classes: int) -> NDArrayTuple:
     """ Generate points in the latent space as input for the generator """
     # generate points in the latent space
     x_input: np.ndarray = np.random.randn(latent_dim * num_samples)
@@ -33,7 +37,8 @@ def generate_latent_points(latent_dim: int, num_samples: int, num_classes: int):
     return z_input, labels
 
 
-def generate_fake_samples(generator: Functional, latent_dim: int, num_samples: int, num_classes: int):
+def generate_fake_samples(generator: Functional, latent_dim: int, num_samples: int,
+                          num_classes: int) -> tuple[NDArrayTuple, np.ndarray]:
     """ Generate fake samples using the generator """
     # generate points in latent space
     z_input, labels_input = generate_latent_points(latent_dim, num_samples, num_classes)
