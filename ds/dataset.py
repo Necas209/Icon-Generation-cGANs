@@ -10,19 +10,21 @@ import numpy as np
 
 @dataclass
 class Icons50Dataset:
-    """ The Icons-50 dataset """
+    """ The Icons-50 dataset
+    Attributes:
+        images: NumPy array of shape (no_images, 32, 32, 3) containing the images
+        labels: NumPy array of shape (no_images,) containing the class label for each image
+        classes: NumPy array of shape (no_classes,) containing the class names
+        subtypes: NumPy array of shape (no_images,) containing the subtype of each image
+        styles: NumPy array of shape (no_images,) containing the style of each image
+        renditions: NumPy array of shape (no_images,) containing the version of each image
+    """
     images: np.ndarray[np.ndarray]
-    """ image is a 3D numpy array of shape (32, 32, 3) """
     labels: np.ndarray[int]
-    """ label is an integer in [0, 49] that represents the class of the image """
     classes: np.ndarray[str]
-    """ classes is a list of strings that represent the classes of the dataset """
     subtypes: np.ndarray[str]
-    """ subtype is a string that represents the icon subtype """
     styles: np.ndarray[str]
-    """ style is a string that represents the icon style """
     renditions: np.ndarray[int]
-    """ rendition is an integer in [0, 9] that represents the icon version """
 
     def __len__(self) -> int:
         """ Return the number of images in the dataset """
