@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 
 import numpy as np
-from keras.models import Functional
+from keras.models import Functional, load_model
 
 from ds.dataset import Icons50Dataset
 from ds.generation import generate_real_samples, generate_fake_samples, generate_latent_points
@@ -84,3 +84,9 @@ def save_models(generator: Functional, discriminator: Functional, cgan: Function
     generator.save(os.path.join(path, 'generator'))
     discriminator.save(os.path.join(path, 'discriminator'))
     cgan.save(os.path.join(path, 'cgan'))
+
+
+def load_generator(path: str | bytes | os.PathLike) -> Functional:
+    """ Load the generator model from file """
+    path = os.path.join(path, 'generator')
+    return load_model(path)

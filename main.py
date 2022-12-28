@@ -2,13 +2,12 @@ import os
 
 import hydra
 from hydra.core.config_store import ConfigStore
-from keras.models import load_model
 
 from config.config import Icons50Config
 from ds.dataset import Icons50Dataset, read_classes, read_label
 from ds.generation import generate_images
 from model.cgan import create_discriminator, create_generator, create_cgan
-from model.train import save_models, train_cgan
+from model.train import save_models, train_cgan, load_generator
 
 cs = ConfigStore.instance()
 cs.store(name="icons50_config", node=Icons50Config)
@@ -79,7 +78,7 @@ def main(cfg: Icons50Config) -> None:
     # filter the dataset
     filtered_ds = dataset.filter(top_k=10)
     # load saved generator model
-    generator = load_model(os.path.join(cfg.paths.filt_save_path, "generator"))
+    generator = load_generator(path=cfg.paths.filt_save_path)
     # Read the label from user input
     label = read_label(num_classes=cfg.params.num_classes)
     filtered_ds.print_subtypes(label)
