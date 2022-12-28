@@ -84,6 +84,11 @@ class Icons50Dataset:
             renditions=self.renditions[labels != -1],
         )
 
+    def print_classes(self) -> None:
+        """ Print the classes of the dataset """
+        for label in range(len(self.classes)):
+            print(f"{label}: {self.classes[label]}")
+
     def print_subtypes(self, label: int | None = None) -> None:
         """ Print the subtypes of the dataset for a given class """
         if label is None:
