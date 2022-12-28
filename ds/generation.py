@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import math
+import sys
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -8,7 +9,12 @@ from keras.models import Functional
 
 from ds.dataset import Icons50Dataset
 
-NDArrayTuple = tuple[np.ndarray, np.ndarray]
+if sys.version_info >= (3, 9):
+    NDArrayTuple = tuple[np.ndarray, np.ndarray]
+else:
+    from typing import Tuple
+
+    NDArrayTuple = Tuple[np.ndarray, np.ndarray]
 
 
 def generate_real_samples(dataset: Icons50Dataset, num_samples: int) -> tuple[NDArrayTuple, np.ndarray]:
