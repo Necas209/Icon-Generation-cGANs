@@ -121,6 +121,18 @@ class Icons50Dataset:
         )
 
 
+def read_label(num_classes: int) -> int:
+    """ Read a label from the user """
+    while True:
+        try:
+            label = int(input("Enter a class label: "))
+            if 0 <= label < num_classes:
+                return label
+            print(f"Invalid class label! Label must be between 0 and {num_classes - 1}")
+        except ValueError:
+            print("Invalid class label! Label must be an integer")
+
+
 def read_classes(path: str | bytes | os.PathLike) -> list[str]:
     """ Read the classes from a file """
     with open(path, 'r') as f:
