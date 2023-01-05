@@ -43,11 +43,11 @@ al70633@alunos.utad.pt}
 \maketitle
 
 \begin{abstract}
-This will be the abstract for the following paper.
+Conditional Generative Adversarial Networks (cGANs) were used to generate icons with specific characteristics or properties given the Icons-50 dataset. The performance of the cGANs was impacted by the imbalanced nature of the original dataset. Filtering the original dataset to include only the 10 most frequent classes (the Icons-10 dataset) improved the performance of the cGANs, allowing them to generate more detailed and striking icons. This paper demonstrates the potential of cGANs for use in applications where a large number of icons with specific characteristics are needed.
 \end{abstract}
 
 \begin{IEEEkeywords}
-GAN, cGAN, generation, icon, style
+GAN, cGAN, Icons-50, icons, style, applications
 \end{IEEEkeywords}
 
 \section{Introduction}
@@ -59,7 +59,7 @@ cGANs introduce an additional input to the generator and discriminator networks,
 For example, in image generation, the conditioning variable may be a label indicating the class of the image to be generated (e.g., a specific type of animal or object), or it may be an attribute of the image (e.g., the presence or absence of a certain color).
 
 \subsection{Problem}
-Given a public dataset, Icons-50 \cite{Icons50, Hendrycks2018}, comprised of icons and their respective labels, we want to be able to generate a new set of sample icons corresponding to a specific label, such as ``clock" or ``airplane".
+Given a public dataset, Icons-50 \cite{Icons50, Hendrycks2018}, comprised of icons and their respective labels, I want to be able to generate a new set of sample icons corresponding to a specific label, such as ``clock" or ``airplane".
 
 This could be useful in applications where a large number of icons with specific characteristics are needed, such as in user interface design or graphics design.
 
@@ -78,22 +78,22 @@ In Ma et al. \cite{Ma2018SpeckleCGAN}, the authors propose an end-to-end framewo
 \section{Materials and Methods}
 
 \subsection{Data}
-To achieve our goal, we opted for the public dataset ``Icons-50" \cite{Icons50}, first introduced in \cite{Hendrycks2018}. According to the authors, this dataset was initially designed to test the robustness of classifiers to surface variations in objects. The dataset includes both new styles of known objects and unexpected instances of known classes, and the authors propose two methods to improve the surface variation robustness of classifiers.
+To achieve my goal, I opted for the public dataset ``Icons-50" \cite{Icons50}, first introduced in \cite{Hendrycks2018}. According to the authors, this dataset was initially designed to test the robustness of classifiers to surface variations in objects. The dataset includes both new styles of known objects and unexpected instances of known classes, and the authors propose two methods to improve the surface variation robustness of classifiers.
 
 The Icons-50 dataset consists of 10,000 images belonging to 50 classes of icons (e.g., people, food, activities, places, objects, symbols, etc.) collected from different technology companies and platforms (e.g., Apple, Samsung, Google, Facebook, etc.). 
 
-Each class has icons with different styles (e.g., Microsoft's flat vector graphics icon style) and different class subtypes (e.g., 'duck' or 'eagle' subtypes in the 'birds' class) \cite{Icons50}.
+Each class has icons with different styles (e.g., Microsoft's flat vector graphics icon style) and different class sub-types (e.g., 'duck' or 'eagle' sub-types in the 'birds' class) \cite{Icons50}.
 
 To summarize, each entry in the dataset is comprised of the following parameters:
 \begin{itemize}
     \item image - a 3x32x32 NumPy array corresponding to the RGB icon
     \item class - an integer between 0 and 49 representing the icon's class
-    \item subtype - a string corresponding to the class subtype, e.g., ``broken\_heart" for the class ``heart" (label 26)
+    \item sub-type - a string corresponding to the class sub-type, e.g., ``broken\_heart" for the class ``heart" (label 26)
     \item style - a string corresponding to the icon's source, such as Microsoft or Apple
     \item rendition - an integer between 0 and 9 representing the icon's version
 \end{itemize}
 
-When analyzing the class distribution, we came to the conclusion that the Icons-50 dataset was considerably unbalanced, as seen in Fig.~\ref{fig:Icons50ClassDist}.
+When analyzing the class distribution, I came to the conclusion that the Icons-50 dataset was considerably unbalanced, as seen in Fig.~\ref{fig:Icons50ClassDist}.
 
 \begin{figure}[htbp]
     \centering
@@ -132,9 +132,9 @@ This led to the creation of Icons-10, a subset of Icons-50 containing the top 10
 \end{table}
 
 \subsection{Methods}
-We opted to adapt an already existing implementation of a cGAN model using the \texttt{keras} library, with the original source code available in \cite{BrownleeCGAN, BrownleeGAN}. In the original post, the author chooses to train the model with the MNIST Fashion dataset, which is comprised of gray-level images with 28x28 pixels, far different from the Icons-50 dataset specifications.
+I opted to adapt an already existing implementation of a cGAN model using the \texttt{keras} library, with the original source code available in \cite{BrownleeCGAN, BrownleeGAN}. In the original post, the author chooses to train the model with the MNIST Fashion dataset, which is comprised of gray-level images with 28x28 pixels, far different from the Icons-50 dataset specifications.
 
-In the case of a regular GAN, in Fig.~\ref{fig:GANArch}, the generator takes in the input vector randomly drawn from the latent space and outputs the generated image, which is fed to the discriminator, along side real examples from our dataset, and outputs a classification: whether or not it is real.
+In the case of a regular GAN, in Fig.~\ref{fig:GANArch}, the generator takes in the input vector randomly drawn from the latent space and outputs the generated image, which is fed to the discriminator, along side real examples from the dataset, and outputs a classification: whether or not it is real.
 
 \begin{figure}[htbp]
     \centering
@@ -143,7 +143,7 @@ In the case of a regular GAN, in Fig.~\ref{fig:GANArch}, the generator takes in 
     \label{fig:GANArch}
 \end{figure}
 
-The main difference between the regular GAN and the cGAN models can be seen in Fig.~\ref{fig:cGANArch}. The conditioning variable, in our case, is the icon's class label, which is fed both to the generator when generating a new fake icon, and to the discriminator in order to learn whether or not it belongs to the specific class.
+The main difference between the regular GAN and the cGAN models can be seen in Fig.~\ref{fig:cGANArch}. The conditioning variable, in this case, is the icon's class label, which is fed both to the generator when generating a new fake icon, and to the discriminator in order to learn whether or not it belongs to the specific class.
 
 \begin{figure}[htbp]
     \centering
@@ -152,11 +152,11 @@ The main difference between the regular GAN and the cGAN models can be seen in F
     \label{fig:cGANArch}
 \end{figure}
 
-With all this in mind, we built our model, starting with the generator. 
+With all this in mind, I built the model, starting with the generator. 
 
-As it is clear from Fig.~\ref{fig:GenStruct}, the generator takes in the class label of the icon we want to generate and an input vector drawn randomly from the latent space, with a dimension set at 100. It has a total of 1.38M parameters.
+As it is clear from Fig.~\ref{fig:GenStruct}, the generator takes in the class label of the icon I want to generate and an input vector drawn randomly from the latent space, with a dimension set at 100. It has a total of 1.38M parameters.
 
-In terms of the activation layers, we opted for the leaky RELU with an alpha of 0.2, apart from the output layer with a \textit{tanh} activation.
+In terms of the activation layers, I opted for the leaky ReLU with an alpha of 0.2, apart from the output layer with a \textit{tanh} activation.
 
 \begin{figure}[htbp]
     \centering
@@ -165,7 +165,7 @@ In terms of the activation layers, we opted for the leaky RELU with an alpha of 
     \label{fig:GenStruct}
 \end{figure}
 
-Now for the discriminator, as it is evident from (Fig.~\ref{fig:DiscStruct}), we again chose the leaky RELU function with an alpha of 0.2 for most of the model, apart from the output, which in this case has a \textit{sigmoid} activation, as we are dealing with a binary classification problem.
+Now for the discriminator, as it is evident from (Fig.~\ref{fig:DiscStruct}), I again chose the leaky ReLU function with an alpha of 0.2 for most model layers, apart from the output, which in this case has a \textit{sigmoid} activation, as I are dealing with a binary classification problem.
 
 Since the discriminator is to be trained individually, it must be compiled with a given optimizer, in this case, the Adam optimizer, with a learning rate $LR=\num{2e-4}$ and a $\beta_1=0.5$. It has a total of 0.22M parameters.
 
@@ -176,7 +176,7 @@ Since the discriminator is to be trained individually, it must be compiled with 
     \label{fig:DiscStruct}
 \end{figure}
 
-Finally, we assemble our cGAN model by taking the generator's output and the input class label and feeding them to the discriminator, as seen in Fig.~\ref{fig:cGANStruct}.
+Finally, I assemble the cGAN model by taking the generator's output and the input class label and feeding them to the discriminator, as seen in Fig.~\ref{fig:cGANStruct}.
 
 \begin{figure}[htbp]
     \centering
@@ -185,7 +185,7 @@ Finally, we assemble our cGAN model by taking the generator's output and the inp
     \label{fig:cGANStruct}
 \end{figure}
 
-We chose to train trained two models with identical architectures, first with our original dataset, the Icons-50, and then with the new Icons-10 subset. Given the smaller dataset, we picked an appropriate batch size to match its length, seen in Table~\ref{tab:ModelParams}.
+I chose to train trained two models with identical architectures, first with the original dataset, the Icons-50, and then with the new Icons-10 subset. Given the smaller dataset, I picked an appropriate batch size to match its length, seen in Table~\ref{tab:ModelParams}.
 
 \begin{table}[htbp]
     \centering
@@ -201,7 +201,7 @@ We chose to train trained two models with identical architectures, first with ou
 
 \section{Results}
 
-After training our model with the Icons-50 dataset for 100 epochs, we were able to achieve a remarkable classification accuracy on the discriminator, seen in Fig.~\ref{fig:Icons50Acc}, with a 94\% accuracy for real images and a 98\% accuracy for generated images.
+After training the model with the Icons-50 dataset for 100 epochs, I was able to achieve a remarkable classification accuracy on the discriminator, seen in Fig.~\ref{fig:Icons50Acc}, with a 94\% accuracy for real images and a 98\% accuracy for generated images.
 
 \begin{figure}[htbp]
     \centering
@@ -219,7 +219,7 @@ In terms of loss, while the discriminator finished with a satisfactory minimal l
     \label{fig:Icons50Loss}
 \end{figure}
 
-Afterwards, we trained a new model, with the same structure, on the Icons-10 subset, again for 100 epochs. When analyzing the discriminator's performance, it seemed that both its loss and accuracy suffered. 
+Afterwards, I trained a new model, with the same structure, on the Icons-10 subset, again for 100 epochs. When analyzing the discriminator's performance, it seemed that both its loss and accuracy suffered. 
 
 While the loss only increased slightly, to an acceptable value of 0.643, the accuracy while classifying images as real or fake varied quite drastically during training, as can be seen on Fig.~\ref{fig:Icons10Acc}, finishing at, respectively, 83.33\% and 86.67\%.
 
@@ -239,7 +239,7 @@ In terms of the generator's performance, while the loss still varied quite signi
     \label{fig:Icons10Loss}
 \end{figure}
 
-To better evaluate the performance of the trained generators, we generated a new set of icons belonging to the classes common to both datasets.
+To better evaluate the performance of the trained generators, I generated a new set of icons belonging to the classes common to both datasets.
 
 \begin{figure}[htbp]
     \begin{subfigure}[h]{0.4\linewidth}
@@ -283,10 +283,26 @@ When trained on the Icons-10 dataset, the model was able to generate a unique an
 
 \section{Discussion}
 
- Possibly due to the large number of classes, the model seemed to overfit the data (Icons-50) and the generator loss kept increasing as the training continued, finishing with a not so great loss.
- 
+When dealing with imbalanced data, such as the Icons-50 dataset, it is important to consider how this may impact the training of a machine learning (ML) model, especially when the number of classes is large.
+
+When trained with the original unfiltered data, the discriminator was able to achieve a high accuracy of around 96\% and a small loss of 0.329. While these results would be optimal in their own, when analyzed alongside the generator's performance, the model seemed to overfit the data, possibly due to the large number of classes, finishing off with a disappointing loss of 2.532.
+
+Afterwards, I decided to filter out the dataset by choosing the 10 most frequent classes, in the hope that when training a new model, I would be able to achieve better results when it came to the icon generation. I called this new dataset, fittingly, the Icons-10 dataset.
+
+I then trained a new model with an identical structure to the first one, but now on the filtered data. As to be expected, while the discriminator suffered a slight dip in performance, with an accuracy of 85\% and a loss of 1.433, the generator improved quite significantly, with a lower loss of 1.433.
+
+When analyzing the icons generated by each model, it became apparent that, while the first model was able to learn the overall structure and element composition of the icon, particularly in the case of the ``family" class, the results were lackluster and lacked the proper detail to discern what they represented, without the added context, as seen in Fig.~\ref{fig:Icons50Clock},\ref{fig:Icons50Family}.
+
+This suggests that the generator may not have been deep or large enough to learn the necessary features for generating icons for 50 different classes, while the model trained with the Icons-10 dataset was able to learn and generated detailed and striking images, such as Fig.~\ref{fig:Icons10Clock},\ref{fig:Icons10Family}.
+
 \section{Conclusions}
-Overall, cGANs are an important tool in the field of machine learning, as they allow the generation of data with specific characteristics, which can be useful in a wide range of applications.
+In this paper, the ability of conditional generative adversarial networks (cGANs) to generate icons with specific characteristics or properties was explored using the Icons-50 dataset. To address the issue of imbalanced data in the original unfiltered dataset, a new dataset was created by filtering the original dataset to include only the 10 most frequent classes (the Icons-10 dataset). 
+
+When comparing the performance of the cGANs trained on these two datasets, it was found that the model trained on the Icons-10 dataset was able to generate more detailed and striking icons compared to the model trained on the unfiltered data. This suggests that the model trained on the Icons-10 dataset was able to learn more effectively and generate more accurate and representative icons for the desired classes.
+
+In conclusion, cGANs can be an effective tool for generating icons with specific characteristics or properties, given a suitable dataset. In this case, filtering the original dataset to include only the most frequent classes improved the performance of the cGANs, demonstrating the importance of considering the impact of imbalanced data on model training. 
+
+Future work could include testing the performance of cGANs with different hyper-parameters or architectures, or using a different dataset with more balanced class distribution. Additionally, exploring the use of cGANs for generating icons with other specific characteristics or properties, such as color or shape, could be a valuable direction for future research
 
 \bibliographystyle{IEEEtran}
 \bibliography{paper/references}
