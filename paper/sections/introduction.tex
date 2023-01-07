@@ -1,0 +1,41 @@
+\subsection{Background}\label{subsec:background}
+Conditional Generative Adversarial Networks (cGANs)~\cite{Mirza2014} are a variant of Generative Adversarial Networks
+(GANs) that allow the generation of new data samples with specific properties or characteristics.
+They consist of two neural networks: a generator and a discriminator.
+The generator is trained to generate new data samples that are similar to a training set, while the discriminator is
+trained to distinguish between real and fake data samples.
+
+cGANs introduce an additional input to the generator and discriminator networks, known as the conditioning variable,
+which allows the model to generate data with specific characteristics or properties.
+This can be useful in a variety of applications, such as image generation, text generation, and speech generation, where
+the output data needs to have specific attributes or features~\cite{Mirza2014}.
+
+For example, in image generation, the conditioning variable may be a label indicating the class of the image to be generated (e.g., a specific type of animal or object), or it may be an attribute of the image (e.g., the presence or absence of a certain color).
+
+\subsection{Problem}\label{subsec:problem}
+Given a public dataset, Icons-50~\cite{Icons50, Hendrycks2018}, comprised of icons and their respective labels, we want to be able to generate a new set of sample icons corresponding to a specific label, such as ``clock'' or ``airplane''.
+
+This could be useful in applications where a large number of icons with specific characteristics are needed, such as in user interface design or graphics design.
+
+\subsection{Objective}\label{subsec:objective}
+Using cGANs, it is possible to generate icons with specific characteristics or properties, given a public dataset such as Icons-50.
+To do this, the cGAN would be trained on said dataset, with the conditioning variable being the desired label of the generated icons, in this case represented by an integer value corresponding to a class of icons, such ``cat'' or ``bird''.
+
+\subsection{Related Work}\label{subsec:related-work}
+In Mirza and Osindero~\cite{Mirza2014} , the authors introduce the concept of conditional generative adversarial networks (cGANs), which are a variant of generative adversarial networks (GANs) that allow the generation of new data samples with specific properties or characteristics.
+The cGANs are constructed by feeding the data and the desired characteristics or properties to both the generator and discriminator networks.
+The authors demonstrate the use of cGANs for generating MNIST digits conditioned on class labels and for learning a multi-modal model.
+They also provide examples of using cGANs for image tagging, where the model is able to generate descriptive tags that are not part of the training labels.
+
+In Liu et al.~\cite{Liu2021SCCGAN:CGAN} , the authors propose a cGAN-based method for repairing damaged fonts based on style.
+They use the content accuracy and style similarity of the repaired font as evaluation indices to assess the accuracy of the restored style.
+The results show that the cGAN-based method is able to repair damaged fonts in a way that is similar to the correct content.
+
+In Loey et al.~\cite{Loey2020AImages} , the authors propose the use of classical data augmentation techniques along with a cGAN based on a deep transfer learning model for COVID-19 detection in chest CT scan images.
+The motivation for this research was the limited availability of benchmark datasets for COVID-19, particularly in chest CT images.
+To address this, the authors collected all available images for COVID-19 and used classical data augmentation techniques along with a cGAN to generate additional images to help in the detection of the virus.
+The results showed that the classical data augmentation techniques along with the cGAN improved the performance of classification in all selected models.
+
+In Ma et al.~\cite{Ma2018SpeckleCGAN} , the authors propose an end-to-end framework based on a cGAN for simultaneously reducing speckle noise and enhancing contrast in retinal OCT images.
+The cGAN is trained using a novel method for obtaining clean images from outputs of commercial OCT scanners, and an edge loss function is added to the final objective to ensure that the model is sensitive to edge-related details.
+The results show that the proposed method outperforms traditional and other deep learning methods in terms of denoising performance, and has good generalization ability for different types of retinal OCT images.

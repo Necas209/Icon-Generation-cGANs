@@ -59,9 +59,9 @@ def train_cgan(cgan: Functional, generator: Functional, discriminator: Functiona
             # update the generator via the discriminator's error
             g_loss = cgan.train_on_batch([z_input, labels_input], y_gan)
             # calculate the discriminator loss
-            d_loss = 0.5 * np.add(d_loss1, d_loss2)
+            d_loss = (d_loss1 + d_loss2) / 2.0
             # calculate the discriminator accuracy
-            d_acc = 0.5 * np.add(d_acc1, d_acc2)
+            d_acc = (d_acc1 + d_acc2) / 2.0
             # summarize loss on this batch
             print(f'\r> Epoch {epoch + 1}: '
                   f'Batch {batch + 1}/{batches_per_epoch}, '
