@@ -39,6 +39,10 @@ In terms of the generator's performance, while the loss still varied quite signi
 
 To better evaluate the performance of the trained generators, I generated a new set of icons belonging to the classes common to both datasets.
 
+When given a simple task, such as generating a ``clock'' icon, the model trained on the Icons-50 dataset only seemed to perceive the shape of the clock, with none of the defining details being present in the generated images, evident from Fig.~\ref{fig:Icons50Clock}.
+
+The second model performed much better on this task, capturing finer details such as the correct color, and the hour and minutes hands, as it is clear from Fig.~\ref{fig:Icons10Clock}.
+
 \begin{figure}[htbp]
     \begin{subfigure}[h]{0.4\linewidth}
         \includegraphics[width=\linewidth]{images/gen_icons/icons50_clock}
@@ -54,9 +58,9 @@ To better evaluate the performance of the trained generators, I generated a new 
     \caption{Generated icons belonging to class ``clock"}
 \end{figure}
 
-When given a simple task, such as generating a ``clock'' icon, the model trained on the Icons-50 dataset only seemed to perceive the shape of the clock, with none of the defining details being present in the generated images, evident from Fig.~\ref{fig:Icons50Clock}.
+When dealing with a complex task, such as generating icons for the ``family'' class, the original generator was able to create recognizable images, even though they lacked definition and variability, as seen on Fig.~\ref{fig:Icons50Family}.
 
-The second model performed much better on this task, capturing finer details such as the correct color, and the hour and minutes hands, as it is clear from Fig.~\ref{fig:Icons10Clock} .
+When trained on the Icons-10 dataset, the model was able to generate a unique and slightly more detailed set of icons, albeit with variable results, as seen on Fig.~\ref{fig:Icons10Family}.
 
 \begin{figure}[htbp]
     \begin{subfigure}[h]{0.4\linewidth}
@@ -72,7 +76,3 @@ The second model performed much better on this task, capturing finer details suc
     \end{subfigure}
     \caption{Generated icons belonging to class ``family"}
 \end{figure}
-
-When dealing with a complex task, such as generating icons for the ``family'' class, the original generator was able to create recognizable images, even though they lacked definition and variability, as seen on Fig.~\ref{fig:Icons50Family}.
-
-When trained on the Icons-10 dataset, the model was able to generate a unique and slightly more detailed set of icons, albeit with variable results, as seen on Fig.~\ref{fig:Icons10Family}.

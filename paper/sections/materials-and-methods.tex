@@ -91,14 +91,14 @@ In terms of the activation layers, we opted for the leaky RELU with an alpha of 
     \label{fig:GenStruct}
 \end{figure}
 
+Now for the discriminator, as it is evident from (Fig.~\ref{fig:DiscStruct}), we again chose the leaky RELU function with an alpha of 0.2 for most of the model, apart from the output, which in this case has a \textit{sigmoid} activation, as we are dealing with a binary classification problem.
+
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.4\textwidth]{images/summary/discriminator}
     \caption{Structure of the discriminator model}
     \label{fig:DiscStruct}
 \end{figure}
-
-Now for the discriminator, as it is evident from (Fig.~\ref{fig:DiscStruct}), we again chose the leaky RELU function with an alpha of 0.2 for most of the model, apart from the output, which in this case has a \textit{sigmoid} activation, as we are dealing with a binary classification problem.
 
 Since the discriminator is to be trained individually, it must be compiled with a given optimizer, in this case, the Adam optimizer, with a learning rate $LR=\num{2e-4}$ and a $\beta_1=0.5$.
 It has a total of 0.22M parameters.
