@@ -4,10 +4,9 @@ import hydra
 from hydra.core.config_store import ConfigStore
 
 from config.config import Icons50Config
-from ds.dataset import Icons50Dataset, read_classes, read_label
-from ds.generation import generate_images
+from ds.dataset import Icons50Dataset, read_classes
 from model.cgan import create_discriminator, create_generator, create_cgan
-from model.train import save_models, train_cgan, load_generator
+from model.train import save_models, train_cgan
 
 cs = ConfigStore.instance()
 cs.store(name="icons50_config", node=Icons50Config)
@@ -25,10 +24,14 @@ def main(cfg: Icons50Config) -> None:
         path=cfg.paths.data_path,
         classes=classes,
     )
-    # Preprocess the dataset
-    dataset.preprocess()
     # Show dataset summary
     dataset.summary()
+    # Preprocess the dataset
+    dataset.preprocess()
+    # Filter the dataset
+    if cfg.params.top_k > 0:
+        dataset = dataset.filter(cfg.params.top_k)
+        cfg.params.num_classes = cfg.params.top_k
     # Shuffle the dataset
     if cfg.params.shuffle:
         dataset.shuffle()
@@ -73,20 +76,7 @@ def main(cfg: Icons50Config) -> None:
         generator=generator,
         discriminator=discriminator,
         cgan=cgan,
-        path=cfg.paths.save_path
-    )
-    # filter the dataset
-    filtered_ds = dataset.filter(top_k=10)
-    # load saved generator model
-    generator = load_generator(path=cfg.paths.filt_save_path)
-    # Read the label from user input
-    label = read_label(num_classes=cfg.params.num_classes)
-    filtered_ds.print_subtypes(label)
-    # generate images
-    generate_images(
-        generator=generator,
-        label=label,
-        latent_dim=cfg.params.latent_dim
+        path=cfg.paths.save_path if cfg.params.top_k == 0 else cfg.paths.filt_save_path,
     )
 
 

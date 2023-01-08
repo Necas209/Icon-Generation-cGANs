@@ -6,6 +6,7 @@ paths:
 params:
   latent_dim: 100
   num_classes: 50
+  top_k: 0
   image_size: 32
   channels: 3
   epochs: 100

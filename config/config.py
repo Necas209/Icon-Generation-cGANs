@@ -11,6 +11,7 @@ class Optimizer:
 class Params:
     latent_dim: int
     num_classes: int
+    top_k: int
     image_size: int
     channels: int
     epochs: int
