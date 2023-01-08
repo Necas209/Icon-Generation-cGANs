@@ -20,6 +20,7 @@
     </content>
     <orderEntry type="jdk" jdkName="Python 3.9 (tf2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="paper" />
   </component>
   <component name="PyDocumentationSettings">
     <option name="renderExternalDocumentation" value="true" />
