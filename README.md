@@ -31,7 +31,7 @@ the [documentation](https://hydra.cc/docs/next/).
 
 The configuration file contains the following parameters:
 
-- Parameters for the model architecture and data preprocessing:
+Parameters for the model architecture and data preprocessing:
 - `latent_dim`: The dimensionality of the latent space.
 - `image_size`: The size of the images in the dataset.
 - `channels`: The number of channels in the images in the dataset.
@@ -41,11 +41,11 @@ The configuration file contains the following parameters:
 - `top_k`: The number of classes to use in the dataset. If set to 0, all classes are used.
 - `shuffle`: Whether to shuffle the dataset.
 
-- Parameters for the training process:
+Parameters for the training process:
 - `lr`: The learning rate for the Adam optimizer.
 - `beta_1`: The beta_1 parameter for the Adam optimizer.
 
-- Parameters for the model and dataset paths:
+Parameters for the model and dataset paths:
 - `data_path`: The path to the dataset.
 - `classes_path`: The path to the file containing the class names.
 - `save_path`: The path to save the model checkpoints.
