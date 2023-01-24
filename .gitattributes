@@ -1,7 +1,7 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 # Git LFS tracked files
-data/Icons-50.npy filter=lfs diff=lfs merge=lfs -text
+data/Icons-50.pkl filter=lfs diff=lfs merge=lfs -text
 models/cgan filter=lfs diff=lfs merge=lfs -text
 models/discriminator filter=lfs diff=lfs merge=lfs -text
 models/filt filter=lfs diff=lfs merge=lfs -text
