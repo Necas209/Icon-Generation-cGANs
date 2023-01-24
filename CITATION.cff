@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Medeiros"
+  given-names: "Diogo"
+  orcid: "https://orcid.org/0000-0002-6975-7402"
+title: "Icon-Generation-cGANs"
+version: 1.0.0
+date-released: 2023-01-24
+url: "https://github.com/Necas209/Icon-Generation-cGANs"
