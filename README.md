@@ -1,7 +1,7 @@
 # Icon Generation with Conditional GANs
 
-This repository contains the code for the paper [Icon Generation with Conditional GANs](paper/src/article.pdf)
-by [Diogo Medeiros](https://github.com/Necas209).
+This repository contains the code for the paper [Icon Generation with Conditional GANs](http://dx.doi.org/10.13140/RG.2.2.21032.03843)
+by [Diogo Medeiros](https://www.linkedin.com/in/diogo-medeiros-268897198/).
 
 ## Table of Contents
 
